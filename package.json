@@ -8,9 +8,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "prettier '*/**/*.{ts,tsx}' --list-different && eslint '*/**/*.{ts,tsx}' --ignore-path .eslintignore",
-    "lint:fix": "eslint '*/**/*.{ts,tsx}' --ignore-path .eslintignore --fix",
-    "format": "prettier '*/**/*.{ts,tsx}' --write",
+    "lint": "prettier './src/**/*.{ts,tsx}' --list-different && eslint './src/**/*.{ts,tsx}' --ignore-path .eslintignore",
+    "lint:fix": "eslint './src/**/*.{ts,tsx}' --ignore-path .eslintignore --fix",
+    "format": "prettier './src/**/*.{ts,tsx}' --write",
+    "test": "jest",
+    "test:coverage": "jest --collect-coverage",
     "typecheck": "tsc --noEmit --pretty"
   },
   "dependencies": {
@@ -19,8 +21,15 @@
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
+    "@testing-library/react": "^11.0.4",
+    "@testing-library/react-hooks": "^3.4.1",
+    "@types/eslint": "^7.2.3",
+    "@types/eslint-plugin-prettier": "^3.1.0",
     "@types/node": "^14.11.2",
+    "@types/prettier": "^2.1.1",
     "@types/react": "^16.9.49",
+    "@types/react-dom": "^16.9.8",
+    "@types/testing-library__react-hooks": "^3.4.0",
     "@typescript-eslint/eslint-plugin": "^4.2.0",
     "@typescript-eslint/parser": "^4.2.0",
     "eslint": "^7.9.0",
@@ -35,7 +44,9 @@
     "eslint-plugin-react-hooks": "^4.1.2",
     "husky": "^4.3.0",
     "jest": "^26.4.2",
+    "msw": "^0.21.2",
     "prettier": "^2.1.2",
+    "ts-jest": "^26.4.0",
     "typescript": "^4.0.3"
   },
   "husky": {
