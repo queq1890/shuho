@@ -5,4 +5,8 @@ describe('dummy', () => {
     console.log(a);
     expect('a').toBe('a');
   });
+
+  it('fails', () => {
+    expect('a').toBe('b');
+  });
 });
