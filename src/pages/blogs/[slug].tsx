@@ -6,6 +6,10 @@ import fs from 'fs';
 import path from 'path';
 import { Frontmatter, MdxSource } from 'types/models/mdx';
 
+import Button from 'components/atoms/Button';
+
+const components = { Button };
+
 const root = process.cwd();
 
 type Props = {
@@ -14,7 +18,7 @@ type Props = {
 };
 
 const Mdx: NextPage<Props> = ({ mdxSource, frontMatter }) => {
-  const hydrated = hydrate(mdxSource);
+  const hydrated = hydrate(mdxSource, { components });
 
   return (
     <div>
@@ -43,7 +47,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     'utf8'
   );
   const { data, content } = matter(source);
-  const mdxSource = await renderToString(content);
+  const mdxSource = await renderToString(content, { components });
 
   return { props: { mdxSource, frontMatter: data } };
 };
