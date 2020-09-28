@@ -4,13 +4,13 @@ import hydrate from 'next-mdx-remote/hydrate';
 import matter from 'gray-matter';
 import fs from 'fs';
 import path from 'path';
+import { Frontmatter, MdxSource } from 'types/models/mdx';
 
 const root = process.cwd();
 
-// TODO: type properly
 type Props = {
-  mdxSource: any;
-  frontMatter: any;
+  mdxSource?: MdxSource;
+  frontMatter: Frontmatter;
 };
 
 const Mdx: NextPage<Props> = ({ mdxSource, frontMatter }) => {
@@ -25,17 +25,19 @@ const Mdx: NextPage<Props> = ({ mdxSource, frontMatter }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    // TODO: map function
-    paths: [{ params: { slug: 'a' } }],
+  const files = fs.readdirSync(path.join(root, 'src/contents'));
+  const paths = files.map((fileName) => ({
+    params: { slug: path.parse(fileName).name },
+  }));
 
-    fallback: true,
+  return {
+    paths,
+    fallback: false,
   };
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const { slug } = context.params;
-
   const source = fs.readFileSync(
     path.join(root, 'src/contents', `${slug}.mdx`),
     'utf8'
