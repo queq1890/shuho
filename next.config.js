@@ -1,4 +1,6 @@
-module.exports = {
+const withMDX = require('@next/mdx')();
+
+module.exports = withMDX({
   webpack: (config, options) => {
     config.resolve.extensions.push('.ttf');
     config.module.rules.push({
@@ -8,4 +10,4 @@ module.exports = {
 
     return config;
   },
-};
+});
