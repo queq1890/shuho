@@ -1,6 +1,9 @@
-const withMDX = require('@next/mdx')();
+const withMdxEnhanced = require('next-mdx-enhanced');
 
-module.exports = withMDX({
+module.exports = withMdxEnhanced({
+  layoutPath: 'src/components/layouts',
+  defaultLayout: true,
+})({
   webpack: (config, options) => {
     config.resolve.extensions.push('.ttf');
     config.module.rules.push({

@@ -58,6 +58,7 @@ module.exports = {
     quotes: ['error', 'single', { avoidEscape: true }],
     'require-yield': 'error',
     semi: ['error', 'always'],
+    'no-use-before-define': 'off',
 
     // @typescript-eslint
     '@typescript-eslint/explicit-function-return-type': 'off',
@@ -113,6 +114,7 @@ module.exports = {
     ],
     'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',
+    'react/display-name': 'off',
 
     // react hooks
     'react-hooks/rules-of-hooks': 'error',
