@@ -1,4 +1,4 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 import Rubik from '../../public/fonts/Rubik-Regular.ttf';
 
 const rubik = {
@@ -27,6 +27,24 @@ const palette = {
 
 const typography = {
   fontFamily: 'Rubik',
+  h1: {
+    fontWeight: 700,
+  },
+  h2: {
+    fontWeight: 700,
+  },
+  h3: {
+    fontWeight: 400,
+  },
+  h4: {
+    fontWeight: 400,
+  },
+  h5: {
+    fontWeight: 400,
+  },
+  h6: {
+    fontWeight: 400,
+  },
 };
 
 const overrides = {
@@ -37,10 +55,12 @@ const overrides = {
   },
 };
 
-const theme = createMuiTheme({
-  palette,
-  typography,
-  overrides,
-});
+const theme = responsiveFontSizes(
+  createMuiTheme({
+    palette,
+    typography,
+    overrides,
+  })
+);
 
 export default theme;
