@@ -34,7 +34,7 @@ const typography = {
     fontWeight: 700,
   },
   h3: {
-    fontWeight: 400,
+    fontWeight: 700,
   },
   h4: {
     fontWeight: 400,
