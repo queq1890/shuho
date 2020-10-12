@@ -1,11 +1,10 @@
 import {
   Box,
-  Callout,
+  Alert,
   Code,
   Heading,
   Kbd,
   Link,
-  PseudoBox,
   Text,
   Divider,
   useColorMode,
@@ -76,7 +75,7 @@ const Quote = (props) => {
   };
 
   return (
-    <Callout
+    <Alert
       mt={4}
       w="98%"
       bg={bgColor[colorMode]}
@@ -120,7 +119,7 @@ const DocsHeading = (props) => {
       <Box pointerEvents="auto">
         {children}
         {id && (
-          <PseudoBox
+          <Box
             aria-label="anchor"
             as="a"
             color="primary.400"
@@ -134,7 +133,7 @@ const DocsHeading = (props) => {
             ml="0.375rem"
           >
             <Link href={`#${id}`}>#</Link>
-          </PseudoBox>
+          </Box>
         )}
       </Box>
     </Heading>
@@ -156,7 +155,7 @@ const MDXComponents = {
   h2: (props) => <DocsHeading as="h2" fontWeight="bold" size="lg" {...props} />,
   h3: (props) => <DocsHeading as="h3" size="md" fontWeight="bold" {...props} />,
   inlineCode: (props) => (
-    <Code variantColor="yellow" fontSize="0.84em" {...props} />
+    <Code colorScheme="yellow" fontSize="0.84em" {...props} />
   ),
   kbd: Kbd,
   br: (props) => <Box height="24px" {...props} />,
