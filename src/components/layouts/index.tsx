@@ -1,24 +1,25 @@
 import { FC } from 'react';
-import styled from '@emotion/styled';
-import { Flex } from 'components/atoms';
+import { Flex } from '@chakra-ui/core';
+
+import Header from 'components/molecules/Header';
 
 const MainLayout: FC = ({ children }) => (
-  <Flex>
-    <Container>
-      <Article>{children}</Article>
-    </Container>
-  </Flex>
+  <>
+    <Header />
+    <Flex direction="column" as="main" justifyContent="center" px={8}>
+      <Flex
+        as="article"
+        direction="column"
+        justifyContent="center"
+        alignItems="flex-start"
+        m="0 auto 4rem auto"
+        maxWidth="700px"
+        w="100%"
+      >
+        {children}
+      </Flex>
+    </Flex>
+  </>
 );
-
-const Container = styled('div')({
-  paddingLeft: '2rem',
-  paddingRight: '2rem',
-});
-
-const Article = styled('div')({
-  margin: '0 auto 4rem auto',
-  maxWidth: 700,
-  width: '100%',
-});
 
 export default MainLayout;
