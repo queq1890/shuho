@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import NextLink from 'next/link';
-import { Frontmatter } from 'types/models/post';
+import { FrontMatter } from 'types/models/post';
 import { Box, Heading, Link, Text } from '@chakra-ui/core';
 
 type Props = {
-  post: Frontmatter;
+  post: FrontMatter;
 };
 
 const BlogPost: FC<Props> = ({ post }) => {

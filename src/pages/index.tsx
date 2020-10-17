@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import { Stack } from '@chakra-ui/core';
-import { Frontmatter } from 'types/models/post';
-import MainLayout from 'components/layouts';
+import { FrontMatter } from 'types/models/post';
+import MainLayout from 'components/molecules/MainLayout';
 import BlogPost from 'components/molecules/BlogPost';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -10,7 +10,7 @@ import BlogPost from 'components/molecules/BlogPost';
 import { frontMatter as blogPosts } from './blogs/*.mdx';
 
 const Index: NextPage = () => {
-  const sortedBlogPosts = blogPosts.sort((a: Frontmatter, b: Frontmatter) => {
+  const sortedBlogPosts = blogPosts.sort((a: FrontMatter, b: FrontMatter) => {
     return (
       new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
     );
@@ -19,7 +19,7 @@ const Index: NextPage = () => {
   return (
     <MainLayout>
       <Stack spacing={4}>
-        {sortedBlogPosts.map((post: Frontmatter) => (
+        {sortedBlogPosts.map((post: FrontMatter) => (
           <BlogPost post={post} key={post.title} />
         ))}
       </Stack>
