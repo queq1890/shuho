@@ -85,7 +85,7 @@ declare namespace GatsbyTypes {
         readonly node: Pick<MarkdownRemark, 'excerpt'> & {
           readonly fields: Maybe<Pick<MarkdownRemarkFields, 'slug'>>;
           readonly frontmatter: Maybe<
-            Pick<MarkdownRemarkFrontmatter, 'date' | 'title'>
+            Pick<MarkdownRemarkFrontMatter, 'date' | 'title'>
           >;
         };
       }>;
