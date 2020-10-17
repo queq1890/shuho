@@ -59,6 +59,7 @@ module.exports = {
     'require-yield': 'error',
     semi: ['error', 'always'],
     'no-use-before-define': 'off',
+    'no-underscore-dangle': 'off',
 
     // @typescript-eslint
     '@typescript-eslint/explicit-function-return-type': 'off',
