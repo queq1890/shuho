@@ -2,6 +2,7 @@ const mdxPrism = require('mdx-prism');
 const withMdxEnhanced = require('next-mdx-enhanced');
 
 module.exports = withMdxEnhanced({
+  fileExtensions: ['mdx'],
   layoutPath: 'src/components/layouts',
   defaultLayout: true,
   remarkPlugins: [
