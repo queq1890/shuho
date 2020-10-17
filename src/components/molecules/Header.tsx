@@ -29,12 +29,6 @@ const Header: FC = () => {
             About
           </Button>
         </NextLink>
-
-        <NextLink href="/blog" passHref>
-          <Button as="a" variant="ghost" p={[1, 4]}>
-            Blog
-          </Button>
-        </NextLink>
       </Box>
     </StickyNav>
   );
