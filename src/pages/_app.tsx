@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import Head from 'next/head';
 import { AppProps } from 'next/app';
+import { DefaultSeo } from 'next-seo';
 import { MDXProvider } from '@mdx-js/react';
 import { Global, css } from '@emotion/core';
 import { ChakraProvider } from '@chakra-ui/core';
@@ -8,6 +9,7 @@ import MDXComponents from 'components/molecules/MDXComponents';
 
 import theme from 'utility/theme';
 import { prismLightTheme } from 'utility/prismTheme';
+import { defaultSeoConfig } from 'constants/seo';
 
 const MyApp = (props: AppProps) => {
   const { Component, pageProps } = props;
@@ -23,12 +25,12 @@ const MyApp = (props: AppProps) => {
   return (
     <>
       <Head>
-        <title>My page</title>
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
+      <DefaultSeo {...defaultSeoConfig} />
 
       <ChakraProvider theme={theme}>
         <Global
@@ -42,7 +44,7 @@ const MyApp = (props: AppProps) => {
             ${prismLightTheme}
 
             html {
-              min-width: 360px;
+              min-width: 300px;
               scroll-behavior: smooth;
             }
 
@@ -55,7 +57,6 @@ const MyApp = (props: AppProps) => {
           `}
         />
         <MDXProvider components={MDXComponents}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <Component {...pageProps} />
         </MDXProvider>
       </ChakraProvider>
