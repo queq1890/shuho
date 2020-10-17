@@ -1,0 +1,131 @@
+---
+title: Gatsby プロジェクトに後からTypeScript を導入する
+publishedAt: 2020-05-04T10:12:30.379Z
+summary: JavaScript で記述されていたGatsby プロジェクトに型を導入するまで
+image: /images/uploads/gatsby.jpeg
+tags: ['gatsby', 'typescript']
+---
+
+## TLDR;
+
+- `gatsby-plugin-typescript` を使えば特に苦労することなく TS 化できる
+- 型の生成には`gatsby-plugin-graphql-codegen` /`gatsby-plugin-typegen` などを使うと良い
+- 自動生成される型は undefined 許容型になるので Optional chaining 等を多用する形になる
+
+このブログを TypeScript 化したので、手順・詰まったところをまとめる。
+
+## プラグインを読み込む
+
+今回の TypeScript 化にあたって、Gatsby 用の plugin を 2 つ導入した。
+
+- [gatsby-plugin-typescript](https://www.gatsbyjs.org/packages/gatsby-plugin-typescript/): Gatsby プロジェクトで TypeScript を扱えるようにするプラグイン
+- [gatsby-plugin-typegen](https://www.gatsbyjs.org/packages/gatsby-plugin-typegen/): Gatsby プロジェクト内で扱っている GraphQL の型情報を自動生成してくれるプラグイン
+
+npm 経由で必要なプラグインを deps に追加し、`gatsby-config.js`で追加したプラグインを読み込む。
+
+`$yarn add gatsby-plugin-typescript gatsby-plugin-typegen`
+
+```javascript
+// gatsby-config.js
+module.exports = {
+  `gatsby-plugin-react-helmet`,
+  `gatsby-plugin-typescript`,
+  `gatsby-plugin-typegen`,
+  // ...
+```
+
+型定義を提供していないライブラリを利用しているなら、`@types` を入れるなり、自前で型を用意するなりしておく。
+
+## JS ファイルを TS ファイルに置き換える
+
+プラグインの導入が完了したら、`tsconfig.json` をプロジェクトルートに用意する。`tsconfig.json`の書き方について、プラグイン側からの拘束は特にない(はず)なので、好きに書けば良いと思う。
+
+`tsconfig.json` が用意できたら、`.jsx` を`.tsx`に、`.js`を`.ts` に変更した上で、一度`gatsby build` を実行する。 すると、`gatsby-plugin-typegen`が各 page / component に書かれている GraphQL の query から必要な型定義を生成してくれる。(default の path は`src/__generated__/gatsby-types.ts`)
+例えば、`BlogIndex` という名前の query を page / component で利用しているなら、その返り値の型は`GatsbyTypes.BlogIndexQuery`となる。
+
+```typescript
+// BlogIndex という名前のquery
+export const pageQuery = graphql`
+  query BlogIndex {
+    site {
+      siteMetadata {
+        title
+      }
+    }
+    allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
+      edges {
+        node {
+          excerpt
+          fields {
+            slug
+          }
+          frontmatter {
+            date(formatString: "MMMM DD, YYYY")
+            title
+          }
+        }
+      }
+    }
+  }
+`;
+```
+
+```typescript
+// BlogIndexQuery 型が生成される
+
+declare namespace GatsbyTypes {
+  // ...
+
+  type BlogIndexQuery = {
+    readonly site: Maybe<{
+      readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title'>>;
+    }>;
+    readonly allMarkdownRemark: {
+      readonly edges: ReadonlyArray<{
+        readonly node: Pick<MarkdownRemark, 'excerpt'> & {
+          readonly fields: Maybe<Pick<MarkdownRemarkFields, 'slug'>>;
+          readonly frontmatter: Maybe<
+            Pick<MarkdownRemarkFrontmatter, 'date' | 'title'>
+          >;
+        };
+      }>;
+    };
+  };
+
+  // ...
+}
+```
+
+後は生成された型を使って必要な箇所に型を付けていけば良い。
+
+```typescript
+type Props = {
+  data: GatsbyTypes.BlogIndexQuery;
+};
+```
+
+## 詰まったところ
+
+`gatsby-plugin-typegen` で生成される型はほぼ`Maybe` 型でラップされており、undefined になりうる型となっている。
+
+```typescript
+type Maybe<T> = T | undefined;
+```
+
+なので、query 経由で取得した data は、optional chaining 等を利用して undefined でないことを保証しながら扱っていく必要がある。これは、`gatsby-plugin-typegen` だけではなく、`gatsby-plugin-graphql-codegen` を使って型生成した場合も同じである。
+
+```typescript
+<li>
+  {next?.fields?.slug && (
+    <Link to={next.fields.slug} rel="next">
+      {next?.frontmatter?.title} →
+    </Link>
+  )}
+</li>
+```
+
+(リソースに対しての query なら undfined になるのも分かるが、siteMetaData などの query 結果は required な型でも良かったのでは、とも思う)
+
+## 終わりに
+
+自動生成される型が若干扱いにくいこと以外は、割とさっくり TypeScript を導入することができた。最近このブログはほぼ触っていなかったが、型による秩序も手に入ったことなので、このまま少しずつ改修していけたらと思う。
