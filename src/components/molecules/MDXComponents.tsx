@@ -103,18 +103,18 @@ const DocsHeading = (props) => {
         '&[id]': {
           pointerEvents: 'none',
         },
-        '&[id]:before': {
-          display: 'block',
-          height: ' 6rem',
-          marginTop: '-6rem',
-          visibility: 'hidden',
-          content: '""',
-        },
+        // '&[id]:before': {
+        //   display: 'block',
+        //   height: ' 6rem',
+        //   marginTop: '-6rem',
+        //   visibility: 'hidden',
+        //   content: '""',
+        // },
         '&[id]:hover a': { opacity: 1 },
       }}
       {...props}
-      mb="1em"
-      mt="2em"
+      mb={['0.5em', '0.5em', '1em']}
+      mt={['1em', '1em', '2em']}
     >
       <Box pointerEvents="auto">
         {children}
@@ -152,8 +152,11 @@ const Hr = () => {
 
 const MDXComponents = {
   h1: (props) => <Heading as="h1" size="xl" my={4} {...props} />,
-  h2: (props) => <DocsHeading as="h2" fontWeight="bold" size="lg" {...props} />,
+  h2: (props) => <DocsHeading as="h2" size="lg" fontWeight="bold" {...props} />,
   h3: (props) => <DocsHeading as="h3" size="md" fontWeight="bold" {...props} />,
+  h4: (props) => <DocsHeading as="h4" size="sm" fontWeight="bold" {...props} />,
+  h5: (props) => <DocsHeading as="h5" size="xs" fontWeight="bold" {...props} />,
+  h6: (props) => <DocsHeading as="h6" size="xs" fontWeight="bold" {...props} />,
   inlineCode: (props) => (
     <Code colorScheme="yellow" fontSize="0.84em" {...props} />
   ),

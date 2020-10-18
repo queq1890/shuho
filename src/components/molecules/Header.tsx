@@ -12,9 +12,10 @@ const Header: FC = () => {
       alignItems="center"
       maxWidth="900px"
       width="100%"
-      p={8}
-      mt={[0, 8]}
-      mb={8}
+      px={8}
+      py={[4, 4, 8]}
+      mt={[0, 0, 8]}
+      mb={[0, 0, 8]}
       mx="auto"
     >
       <Box>
