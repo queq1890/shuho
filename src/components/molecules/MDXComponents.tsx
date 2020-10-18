@@ -2,7 +2,6 @@ import {
   Box,
   Alert,
   Code,
-  Heading,
   Kbd,
   Link,
   Text,
@@ -10,6 +9,8 @@ import {
   useColorMode,
 } from '@chakra-ui/core';
 import NextLink from 'next/link';
+import DocsHeading from 'components/atoms/DocsHeading';
+import H1 from 'components/atoms/H1';
 
 const Table = (props) => (
   <Box as="table" textAlign="left" mt="32px" width="full" {...props} />
@@ -92,54 +93,6 @@ const Quote = (props) => {
   );
 };
 
-const DocsHeading = (props) => {
-  const { children, id } = props;
-
-  return (
-    <Heading
-      css={{
-        scrollMarginTop: '100px',
-        scrollSnapMargin: '100px', // Safari
-        '&[id]': {
-          pointerEvents: 'none',
-        },
-        // '&[id]:before': {
-        //   display: 'block',
-        //   height: ' 6rem',
-        //   marginTop: '-6rem',
-        //   visibility: 'hidden',
-        //   content: '""',
-        // },
-        '&[id]:hover a': { opacity: 1 },
-      }}
-      {...props}
-      mb={['0.5em', '0.5em', '1em']}
-      mt={['1em', '1em', '2em']}
-    >
-      <Box pointerEvents="auto">
-        {children}
-        {id && (
-          <Box
-            aria-label="anchor"
-            as="a"
-            color="primary.400"
-            fontWeight="normal"
-            outline="none"
-            _focus={{
-              opacity: 1,
-              boxShadow: 'outline',
-            }}
-            opacity={0}
-            ml="0.375rem"
-          >
-            <Link href={`#${id}`}>#</Link>
-          </Box>
-        )}
-      </Box>
-    </Heading>
-  );
-};
-
 const Hr = () => {
   const { colorMode } = useColorMode();
   const borderColor = {
@@ -151,7 +104,7 @@ const Hr = () => {
 };
 
 const MDXComponents = {
-  h1: (props) => <Heading as="h1" size="xl" my={4} {...props} />,
+  h1: (props) => <H1 {...props} />,
   h2: (props) => <DocsHeading as="h2" size="lg" fontWeight="bold" {...props} />,
   h3: (props) => <DocsHeading as="h3" size="md" fontWeight="bold" {...props} />,
   h4: (props) => <DocsHeading as="h4" size="sm" fontWeight="bold" {...props} />,
