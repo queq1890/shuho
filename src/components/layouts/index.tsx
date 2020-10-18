@@ -18,7 +18,7 @@ const MainLayout: FC<Props> = ({ children, frontMatter }) => {
     <>
       <Header />
       <BlogSeo
-        url={`https://queq1890.info/blogs/${slug}`}
+        url={`https://shuho.queq1890.vercel.app/blogs/${slug}`}
         title={frontMatter.title}
         summary={frontMatter.summary}
         publishedAt={frontMatter.publishedAt}
