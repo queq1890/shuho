@@ -4,6 +4,7 @@ import { Flex } from '@chakra-ui/core';
 import Header from 'components/molecules/Header';
 import BlogSeo from 'components/molecules/BlogSeo';
 import { FrontMatter } from 'types/models/post';
+import BlogPostTitle from 'components/molecules/BlogPostTitle';
 
 type Props = {
   frontMatter: FrontMatter;
@@ -34,6 +35,10 @@ const MainLayout: FC<Props> = ({ children, frontMatter }) => {
           maxWidth="700px"
           w="100%"
         >
+          <BlogPostTitle
+            title={frontMatter.title}
+            publishedAt={frontMatter.publishedAt}
+          />
           {children}
         </Flex>
       </Flex>
