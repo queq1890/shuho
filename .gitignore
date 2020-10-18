@@ -2,3 +2,5 @@ node_modules/
 .next/
 .mdx-data/
 coverage/
+
+.vercel
