@@ -2,7 +2,7 @@
 
 `shuho` is the personal blog of queq1890.
 
-## scripts
+## 📝 scripts
 
 ```bash
 # run dev server
