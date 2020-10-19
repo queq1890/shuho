@@ -32,7 +32,7 @@ $ yarn test:coverage
 $ yarn typecheck
 ```
 
-## TODOs
+## 🎯 TODOs
 
 - [ ] add profile page
 - [ ] add recent posts section
