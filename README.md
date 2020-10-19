@@ -1,4 +1,4 @@
-# [shuho](https://queq1890.info/)
+# 🌴 [shuho](https://queq1890.info/)
 
 `shuho` is the personal blog of queq1890.
 
