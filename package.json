@@ -6,8 +6,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "clear": "rimraf .next/ .mdx-data/",
+    "build": "yarn clear && next build",
+    "start": "yarn clear && next start",
     "deploy": "vercel",
     "lint": "prettier './src/**/*.{ts,tsx}' --list-different && eslint './src/**/*.{ts,tsx}' --ignore-path .eslintignore",
     "lint:fix": "eslint './src/**/*.{ts,tsx}' --ignore-path .eslintignore --fix",
@@ -32,6 +33,7 @@
     "next-seo": "^4.13.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-twitter-widgets": "^1.9.5",
     "remark-autolink-headings": "^6.0.1",
     "remark-code-titles": "^0.1.1",
     "remark-slug": "^6.0.0"
@@ -66,6 +68,7 @@
     "msw": "^0.21.2",
     "prettier": "^2.1.2",
     "rehype": "^11.0.0",
+    "rimraf": "^3.0.2",
     "ts-jest": "^26.4.0",
     "typescript": "^4.0.3",
     "url-loader": "^4.1.0"
