@@ -8,11 +8,11 @@ type Props = {
 };
 
 const BlogPost: FC<Props> = ({ post }) => {
-  const slug = post.__resourcePath.replace('blogs/', '').replace('.mdx', '');
+  const slug = post.__resourcePath.replace('blog/', '').replace('.mdx', '');
 
   return (
-    <NextLink href={`blogs/${slug}`} passHref>
-      <Link w="100%" href={`blogs/${slug}`}>
+    <NextLink href={`blog/${slug}`} passHref>
+      <Link w="100%" href={`blog/${slug}`}>
         <Box p={5}>
           <Heading fontSize="xl">{post.title}</Heading>
           <Text mt={4} color="gray.700">
