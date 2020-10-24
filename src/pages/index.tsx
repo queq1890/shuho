@@ -7,7 +7,7 @@ import BlogPost from 'components/molecules/BlogPost';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 // eslint-disable-next-line import/no-unresolved
-import { frontMatter as blogPosts } from './blogs/*.mdx';
+import { frontMatter as blogPosts } from './blog/*.mdx';
 
 const Index: NextPage = () => {
   const sortedBlogPosts = blogPosts.sort((a: FrontMatter, b: FrontMatter) => {
