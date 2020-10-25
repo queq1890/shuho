@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Box, Heading, Link } from '@chakra-ui/core';
+import { Box, Heading } from '@chakra-ui/core';
 
 type Props = {
   id: string;
@@ -37,8 +37,9 @@ const DocsHeading: FC<Props> = (props) => {
             }}
             opacity={0}
             ml="0.375rem"
+            href={`#${id}`}
           >
-            <Link href={`#${id}`}>#</Link>
+            #
           </Box>
         )}
       </Box>

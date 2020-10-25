@@ -8,7 +8,6 @@ import {
   Divider,
   useColorMode,
 } from '@chakra-ui/core';
-import NextLink from 'next/link';
 import DocsHeading from 'components/atoms/DocsHeading';
 import H1 from 'components/atoms/H1';
 
@@ -48,24 +47,14 @@ const TData = (props) => (
 );
 
 const CustomLink = (props) => {
-  const { colorMode } = useColorMode();
-  const color = {
-    light: 'primary.400',
-    dark: 'hsl(208, 95%, 68%)',
-  };
-
   const { href } = props;
   const isInternalLink = href && (href.startsWith('/') || href.startsWith('#'));
 
   if (isInternalLink) {
-    return (
-      <NextLink href={href} passHref>
-        <Link color={color[colorMode]} {...props} />
-      </NextLink>
-    );
+    return <Link {...props} />;
   }
 
-  return <Link color={color[colorMode]} isExternal {...props} />;
+  return <Link isExternal {...props} />;
 };
 
 const Quote = (props) => {
@@ -111,7 +100,12 @@ const MDXComponents = {
   h5: (props) => <DocsHeading as="h5" size="xs" fontWeight="bold" {...props} />,
   h6: (props) => <DocsHeading as="h6" size="xs" fontWeight="bold" {...props} />,
   inlineCode: (props) => (
-    <Code colorScheme="yellow" fontSize="0.84em" {...props} />
+    <Code
+      colorScheme="yellow"
+      fontSize="0.84em"
+      css={{ whiteSpace: 'pre-wrap' }}
+      {...props}
+    />
   ),
   kbd: Kbd,
   br: (props) => <Box height="24px" {...props} />,
@@ -121,9 +115,13 @@ const MDXComponents = {
   td: TData,
   a: CustomLink,
   p: (props) => <Text as="p" mt={4} lineHeight="tall" {...props} />,
-  ul: (props) => <Box as="ul" pt={2} pl={4} ml={2} {...props} />,
-  ol: (props) => <Box as="ol" pt={2} pl={4} ml={2} {...props} />,
-  li: (props) => <Box as="li" pb={1} {...props} />,
+  ul: (props) => (
+    <Box as="ul" pt={2} pl={4} ml={2} css={{ width: '100%' }} {...props} />
+  ),
+  ol: (props) => (
+    <Box as="ol" pt={2} pl={4} ml={2} css={{ width: '100%' }} {...props} />
+  ),
+  li: (props) => <Box as="li" pb={1} css={{ width: '100%' }} {...props} />,
   blockquote: Quote,
 };
 
