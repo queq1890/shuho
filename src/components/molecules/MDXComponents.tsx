@@ -8,7 +8,6 @@ import {
   Divider,
   useColorMode,
 } from '@chakra-ui/core';
-import NextLink from 'next/link';
 import DocsHeading from 'components/atoms/DocsHeading';
 import H1 from 'components/atoms/H1';
 
@@ -48,24 +47,14 @@ const TData = (props) => (
 );
 
 const CustomLink = (props) => {
-  const { colorMode } = useColorMode();
-  const color = {
-    light: 'primary.400',
-    dark: 'hsl(208, 95%, 68%)',
-  };
-
   const { href } = props;
   const isInternalLink = href && (href.startsWith('/') || href.startsWith('#'));
 
   if (isInternalLink) {
-    return (
-      <NextLink href={href} passHref>
-        <Link color={color[colorMode]} {...props} />
-      </NextLink>
-    );
+    return <Link {...props} />;
   }
 
-  return <Link color={color[colorMode]} isExternal {...props} />;
+  return <Link isExternal {...props} />;
 };
 
 const Quote = (props) => {
