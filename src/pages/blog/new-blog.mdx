@@ -1,0 +1,231 @@
+---
+title: Next.js でブログを作り直した
+publishedAt: 2020-10-19T08:12:30.933Z
+summary: Gatsby + Netlify な構成からNext.js + vercel に引っ越した話
+tags: ['next.js']
+---
+
+元々https://github.com/queq1890/blog というリポジトリで、Gatsby + Netlify な構成でブログを書いていたのだが、Next.js SSG + vercel での開発がどのような体験になるのかが気になり、ブログを作り直した。
+移行までにやったこと、移行してみてどうだったかをまとめる。
+
+\*移行後のブログのコード: https://github.com/queq1890/shuho
+
+### 目次
+
+1. [Next.js + mdx の環境を作る](#nextjs--mdx-の環境を作る)
+2. [移行した感想](#移行した感想)
+3. [課題・その他やりたいこと](#課題・その他やりたいこと)
+
+## Next.js + mdx の環境を作る
+
+### Next.js の環境構築
+
+Next.js 自体の設定は[ドキュメント](https://nextjs.org/docs)を参考にしながら行った。
+必要な dependency を install した上で、下記の script を `package.json` に追記して、 `yarn dev` を実行すれば開発用のサーバーが立ち上がる。
+
+```bash
+$ yarn add next react react-dom
+```
+
+```json
+"scripts": {
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start"
+}
+```
+
+### TypeScript 対応
+
+今回は TypeScript で開発を行いたかったので、その設定も同時に行った。 ([ドキュメント](https://nextjs.org/docs/basic-features/typescript))
+
+空の `tsconfig.json` を作成し、`next dev` を実行すると、Next.js が自動で必要な設定を `tsconfig.json` に書き込んでくれる。
+ただし、これで設定完了という訳ではなく、`next dev` は以下のような message と共に中断されてしまう。
+
+```bash
+$ touch tsconfig.json && yarn dev
+# ...
+Please install typescript, @types/react, and @types/node by running:
+         yarn add --dev typescript @types/react @types/node
+# ...
+```
+
+TypeScript と、React / Node の型定義をインストールするように促されるので、指示どおりに以下の command を実行すると、`.tsx` `.ts` ファイルを Next.js プロジェクト上で扱えるようになる。
+
+```bash
+$ yarn add --dev typescript @types/react @types/node
+```
+
+### mdx 対応
+
+#### mdx を `pages/` 以下に配置できるようにする
+
+Next.js はそのままだと `.mdx` 形式のファイルを読み込むことができないので、設定を行う必要がある。vercel 公式から [`@next/mdx`](https://github.com/vercel/next.js/tree/canary/packages/next-mdx) のようなライブラリも提供されているが、
+今回は hashicorp 製の [`next-mdx-enhanced`](https://github.com/hashicorp/next-mdx-enhanced) を利用した。 `next-mdx-enhanced` には `layoutPath` という設定項目があり、mdx で記述された page component を読み込む際に、mdx を children に取る layout component を指定できるようになる。
+例えば、以下のように `next.config.js ` を設定することで、全ての `pages/**/*.mdx` を読み込む際に `src/components/layouts/index.tsx` を layout component として読み込むようになる。
+
+```javascript
+// next.config.js
+const withMdxEnhanced = require('next-mdx-enhanced');
+
+module.exports = withMdxEnhanced({
+  fileExtensions: ['mdx'],
+  layoutPath: 'src/components/layouts',
+  defaultLayout: true,
+})({
+  webpack: (config, options) => {
+    // webpack 周りで変更したい設定があればここに書く
+    // loader の追加など
+    return config;
+  },
+});
+```
+
+```tsx
+// src/components/layouts/index.tsx
+
+import { FC } from 'react';
+import { Flex } from '@chakra-ui/core';
+
+import Header from 'components/molecules/Header';
+import BlogSeo from 'components/molecules/BlogSeo';
+import { FrontMatter } from 'types/models/post';
+import BlogPostTitle from 'components/molecules/BlogPostTitle';
+
+type Props = {
+  frontMatter: FrontMatter;
+};
+
+// children はparse されたmdx
+// mdx で記述されたpage は常にこのlayout component と読み込まれるようになる
+const MainLayout: FC<Props> = ({ children, frontMatter }) => {
+  const slug = frontMatter.__resourcePath
+    .replace('blog/', '')
+    .replace('.mdx', '');
+
+  return (
+    <>
+      <Header />
+      <BlogSeo
+        url={`https://shuho.queq1890.vercel.app/blog/${slug}`}
+        title={frontMatter.title}
+        summary={frontMatter.summary}
+        publishedAt={frontMatter.publishedAt}
+        image={frontMatter.image}
+      />
+      <Flex direction="column" as="main" justifyContent="center" px={[4, 8]}>
+        <Flex
+          as="article"
+          direction="column"
+          justifyContent="center"
+          alignItems="flex-start"
+          m="0 auto 4rem auto"
+          maxWidth="700px"
+          w="100%"
+        >
+          <BlogPostTitle
+            title={frontMatter.title}
+            publishedAt={frontMatter.publishedAt}
+          />
+          {children}
+        </Flex>
+      </Flex>
+    </>
+  );
+};
+
+export default MainLayout;
+```
+
+layout component 側では、parse された mdx を `children` として、 mdx の frontMatter を `frontMatter` として、props から受け取ることができるようになる。
+
+#### MDXProvider の設定
+
+ここまでの設定で、`pages/` 以下に配置した `.mdx` ファイルを読み込むことができるようになったが、parse された HTML 上の各要素には何も style が当たっていない状態である。`@mdx-js/react`の `MDXProvider` を利用して、各要素が任意の React component として render されるように設定する。
+`MDXProvider` は全 page 共通で読み込まれるようにしたいので、`pages/_app.tsx` に記述する。
+
+```bash
+$ yarn add @mdx-js/react
+```
+
+```tsx
+// MDXProvider に渡すcomponents
+const MDXComponents = {
+  h1: (props) => <H1 {...props} />,
+  h2: (props) => <DocsHeading as="h2" size="lg" fontWeight="bold" {...props} />,
+  h3: (props) => <DocsHeading as="h3" size="md" fontWeight="bold" {...props} />,
+  h4: (props) => <DocsHeading as="h4" size="sm" fontWeight="bold" {...props} />,
+  h5: (props) => <DocsHeading as="h5" size="xs" fontWeight="bold" {...props} />,
+  h6: (props) => <DocsHeading as="h6" size="xs" fontWeight="bold" {...props} />,
+  inlineCode: (props) => (
+    <Code colorScheme="yellow" fontSize="0.84em" {...props} />
+  ),
+  kbd: Kbd,
+  br: (props) => <Box height="24px" {...props} />,
+  hr: Hr,
+  table: Table,
+  th: THead,
+  td: TData,
+  a: CustomLink,
+  p: (props) => <Text as="p" mt={4} lineHeight="tall" {...props} />,
+  ul: (props) => <Box as="ul" pt={2} pl={4} ml={2} {...props} />,
+  ol: (props) => <Box as="ol" pt={2} pl={4} ml={2} {...props} />,
+  li: (props) => <Box as="li" pb={1} {...props} />,
+  blockquote: Quote,
+};
+
+export default MDXComponents;
+```
+
+```tsx
+// pages/_app.tsx
+import { AppProps } from 'next/app';
+import { MDXProvider } from '@mdx-js/react';
+import MDXComponents from 'components/molecules/MDXComponents';
+
+const MyApp = (props: AppProps) => {
+  const { Component, pageProps } = props;
+
+  return (
+    <>
+      <Head>
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width"
+        />
+      </Head>
+
+      {/* MDXProvider のcomponents prop に定義したcomponents を渡す */}
+      <MDXProvider components={MDXComponents}>
+        <Component {...pageProps} />
+      </MDXProvider>
+    </>
+  );
+};
+
+export default MyApp;
+```
+
+## 移行した感想
+
+- かなり簡素の設定で静的サイトを React.js で書くための環境が作れて良かった
+  - Gatsby.js より環境作るの楽 && フレームワーク特有の知識を要求されている感覚もなかったので、今後なにか静的サイトを作る時は Next.js で良さそう
+- 上記では触れていないが、vercel への deploy 体験がかなり良かった
+  - terminal から `vercel` と実行するのみ
+  - GitHub の repository と連携して自動 deploy
+  - PR level での preview など
+  - 別サービスからのドメインも config をポチポチしているだけで終わった
+
+## 課題・その他やりたいこと
+
+- `babel-plugin-import-glob-array` を捨てる
+  - index page で全 mdx を取得して link を生成するのに `babel-plugin-import-glob-array` を利用している
+  - どうしても TS の世界から `import { frontMatter as blogPosts } from './blog/*.mdx';` に型をつけるのが難しい
+  - `getStaticProps` + `fs` で書き換えれば良さそう
+- 画像の webp 対応
+  - 現在ブログに使っている画像は jpg or png
+  - lighthouse のスコアを上げようと思えば webp 化していく必要がある
+  - 画像を webp 化する script を書いて実行できるようにしておく？
+- Theming
+  - 真っ白というのも味気ないので、ちゃんとデザイン決めたい
+  - atoms に相当する component を増やして storybook から確認できるようにしたい
