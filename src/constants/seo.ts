@@ -6,16 +6,16 @@ const description = "queq1890's blog";
 const defaultSeoConfig: NextSeoProps = {
   title,
   description,
-  canonical: 'https://shuho.queq1890.vercel.app', // TODO
+  canonical: 'https://queq1890.info',
   openGraph: {
     type: 'website',
     locale: 'ja_JP', // TODO: decide default locale
-    url: 'https://shuho.queq1890.vercel.app',
+    url: 'https://queq1890.info',
     title,
     description,
     images: [
       {
-        url: 'https://shuho.queq1890.vercel.app/static/images/og.jpg', // TODO: put og image to static folder
+        url: 'https://queq1890.info/static/images/android-chrome-192x192.png', // TODO: put og image to static folder
         alt: title,
         width: 1280,
         height: 720,

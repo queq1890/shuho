@@ -17,7 +17,7 @@ const BlogSeo: NextPage<Props> = ({
   image,
 }) => {
   const date = new Date(publishedAt).toISOString();
-  const imageUrl = `https://shuho.queq1890.vercel.app${image}`;
+  const imageUrl = `https://queq1890.info${image}`;
   const featuredImage = {
     url: imageUrl,
     alt: title,
