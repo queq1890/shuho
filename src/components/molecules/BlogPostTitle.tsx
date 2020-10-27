@@ -30,7 +30,7 @@ const BlogPostTitle: FC<Props> = ({ title, publishedAt }) => {
           <Avatar
             size="xs"
             name="Yuji Matsumoto"
-            src="https://avatars0.githubusercontent.com/u/32263803?s=460&u=8a8968e81ba9c2287c465187d0022d81a300397c&v=4"
+            src="/static/images/avatar.jpeg"
             mr={2}
           />
           <Text fontSize="sm">
