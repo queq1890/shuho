@@ -8,6 +8,7 @@ import {
   Divider,
   useColorMode,
 } from '@chakra-ui/core';
+import Image from 'next/image';
 import DocsHeading from 'components/atoms/DocsHeading';
 import H1 from 'components/atoms/H1';
 
@@ -123,6 +124,7 @@ const MDXComponents = {
   ),
   li: (props) => <Box as="li" pb={1} css={{ width: '100%' }} {...props} />,
   blockquote: Quote,
+  img: (props) => <Image {...props} unsized />,
 };
 
 export default MDXComponents;
