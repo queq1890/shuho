@@ -1,6 +1,8 @@
 import { FC } from 'react';
 import { format } from 'date-fns';
-import { Flex, Avatar, Text } from '@chakra-ui/core';
+import _Image from 'next/image';
+import styled from '@emotion/styled';
+import { Flex, Text, Box } from '@chakra-ui/core';
 import H1 from 'components/atoms/H1';
 
 type Props = {
@@ -27,12 +29,9 @@ const BlogPostTitle: FC<Props> = ({ title, publishedAt }) => {
         mb={4}
       >
         <Flex align="center">
-          <Avatar
-            size="xs"
-            name="Yuji Matsumoto"
-            src="/static/images/avatar.jpeg"
-            mr={2}
-          />
+          <Box mr={2}>
+            <Image src="/static/images/avatar.jpeg" width={24} height={24} />
+          </Box>
           <Text fontSize="sm">
             {'Yuji Matsumoto / '}
             {format(publishedAt, 'MMMM dd, yyyy')}
@@ -42,5 +41,9 @@ const BlogPostTitle: FC<Props> = ({ title, publishedAt }) => {
     </Flex>
   );
 };
+
+const Image = styled(_Image)`
+  border-radius: 9999px;
+`;
 
 export default BlogPostTitle;
