@@ -22,7 +22,7 @@ https://github.com/developit/nextjs-preact-demo を参考にしながら、こ�
 $ yarn add preact preact-render-to-string
 ```
 
-次に、
+次に、React 周りの alias を設定していく。
 `npm install` を実行する際に、`npm install <alias>@npm:<package>` のように option を指定することで、任意の alias 名で module を install することができる。 (yarn にも同様の option がある)
 今回は、React 関係の module を Preact で置き換えていきたいので、以下のように command を実行する。
 
@@ -191,6 +191,100 @@ else {
 
 - `else` 以下の部分が該当
 - Preact の devtools を inject している
+
+### next.config.js の全体像
+
+元々あった mdx / font 用の設定を併せて、現在の`next.config.js` は以下の様になっている。
+
+```js
+// next.config.js
+
+const preact = require('preact');
+const mdxPrism = require('mdx-prism');
+const withMdxEnhanced = require('next-mdx-enhanced');
+const withPrefresh = require('@prefresh/next');
+
+const config = {
+  experimental: {
+    modern: true,
+  },
+
+  webpack: (config, { dev, isServer }) => {
+    config.resolve.extensions.push('.ttf');
+    config.module.rules.push({
+      test: /\.ttf/,
+      loader: 'url-loader',
+    });
+
+    const splitChunks = config.optimization && config.optimization.splitChunks;
+    if (splitChunks) {
+      const cacheGroups = splitChunks.cacheGroups;
+      const preactModules = /[\\/]node_modules[\\/](preact|preact-render-to-string|preact-context-provider)[\\/]/;
+      if (cacheGroups.framework) {
+        cacheGroups.preact = Object.assign({}, cacheGroups.framework, {
+          test: preactModules,
+        });
+        cacheGroups.commons.name = 'framework';
+      } else {
+        cacheGroups.preact = {
+          name: 'commons',
+          chunks: 'all',
+          test: preactModules,
+        };
+      }
+    }
+
+    // Install webpack aliases:
+    const aliases = config.resolve.alias || (config.resolve.alias = {});
+    aliases.react = aliases['react-dom'] = 'preact/compat';
+
+    if (dev) {
+      if (isServer) {
+        // Remove circular `__self` and `__source` props only meant for
+        // development. See https://github.com/developit/nextjs-preact-demo/issues/25
+        let oldVNodeHook = preact.options.vnode;
+        preact.options.vnode = (vnode) => {
+          const props = vnode.props;
+          if (props != null) {
+            if ('__self' in props) props.__self = null;
+            if ('__source' in props) props.__source = null;
+          }
+
+          if (oldVNodeHook) {
+            oldVNodeHook(vnode);
+          }
+        };
+      } else {
+        // inject Preact DevTools
+        const entry = config.entry;
+        config.entry = () =>
+          entry().then((entries) => {
+            entries['main.js'] = ['preact/debug'].concat(
+              entries['main.js'] || []
+            );
+            return entries;
+          });
+      }
+    }
+
+    return config;
+  },
+};
+
+module.exports = withPrefresh(
+  withMdxEnhanced({
+    fileExtensions: ['mdx'],
+    layoutPath: 'src/components/layouts',
+    defaultLayout: true,
+    remarkPlugins: [
+      require('remark-autolink-headings'),
+      require('remark-slug'),
+      require('remark-code-titles'),
+    ],
+    rehypePlugins: [mdxPrism],
+  })(config)
+);
+```
 
 ## 置き換えた結果
 

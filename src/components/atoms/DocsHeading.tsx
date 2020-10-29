@@ -28,7 +28,7 @@ const DocsHeading: FC<Props> = (props) => {
           <Box
             aria-label="anchor"
             as="a"
-            color="primary.400"
+            color="primary.500"
             fontWeight="normal"
             outline="none"
             _focus={{
