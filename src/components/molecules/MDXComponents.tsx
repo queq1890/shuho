@@ -49,13 +49,9 @@ const TData = (props) => (
 
 const CustomLink = (props) => {
   const { href } = props;
-  const isInternalLink = href && (href.startsWith('/') || href.startsWith('#'));
+  const isExternal = !(href && (href.startsWith('/') || href.startsWith('#')));
 
-  if (isInternalLink) {
-    return <Link {...props} />;
-  }
-
-  return <Link isExternal {...props} />;
+  return <Link isExternal={isExternal} {...props} color="primary.400" />;
 };
 
 const Quote = (props) => {
