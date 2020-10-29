@@ -51,7 +51,7 @@ const CustomLink = (props) => {
   const { href } = props;
   const isExternal = !(href && (href.startsWith('/') || href.startsWith('#')));
 
-  return <Link isExternal={isExternal} {...props} color="primary.400" />;
+  return <Link isExternal={isExternal} {...props} color="primary.500" />;
 };
 
 const Quote = (props) => {
