@@ -6,7 +6,6 @@ const withPrefresh = require('@prefresh/next');
 const config = {
   experimental: {
     modern: true,
-    polyfillsOptimization: true,
   },
 
   webpack: (config, { dev, isServer }) => {
