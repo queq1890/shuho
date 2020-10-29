@@ -12,6 +12,7 @@ https://github.com/developit/nextjs-preact-demo を参考にしながら、こ�
 
 1. [Preact を install する](#preact-を-install-する)
 2. [Webpack の config をする](#webpack-の-config-をする)
+3. [置き換えた結果](#置き換えた結果)
 
 ## Preact を install する
 
@@ -35,16 +36,13 @@ $ yarn add react@npm:@preact/compat@^0.0.3 react-dom@npm:@preact/compat@^0.0.3 r
 
 https://github.com/developit/nextjs-preact-demo/blob/master/next.config.js からまるっとコピーしてきた。分かる限りで各 config の意味を書いていく。
 
-### experimental: { ... }
+### experimental.modern
 
 ```js
   experimental: {
     modern: true,
-    polyfillsOptimization: true
   },
 ```
-
-#### modern
 
 - `next build` で生成される build target を modern browser 向けにするかどうかの option
   - default は false で、ES2015+ 向けの build を生成する
@@ -53,4 +51,156 @@ https://github.com/developit/nextjs-preact-demo/blob/master/next.config.js か�
 
 > 参考: https://github.com/vercel/next.js/discussions/7563
 
-#### polyfillsOptimization
+### splitChunks
+
+```js
+  webpack(config, { dev, isServer }) {
+    const splitChunks = config.optimization && config.optimization.splitChunks
+    if (splitChunks) {
+      const cacheGroups = splitChunks.cacheGroups;
+      const preactModules = /[\\/]node_modules[\\/](preact|preact-render-to-string|preact-context-provider)[\\/]/;
+      if (cacheGroups.framework) {
+        cacheGroups.preact = Object.assign({}, cacheGroups.framework, {
+          test: preactModules
+        });
+        cacheGroups.commons.name = 'framework';
+      }
+      else {
+        cacheGroups.preact = {
+          name: 'commons',
+          chunks: 'all',
+          test: preactModules
+        };
+      }
+    }
+```
+
+#### config.optimization.splitChunks.cacheGroups
+
+- `cacheGroups.framework` は react 周りの modules を入れている chunk https://github.com/vercel/next.js/blob/308ec39f04ffd3c523b722592cc3e5e9edadbf80/packages/next/build/webpack-config.ts#L463
+- `cacheGroups.framework` を copy しながら、test だけ `preactModules` に変更している
+- `cacheGroups.commons.name` を 'framework' に変更している
+  - commons chunk と framework を統合するため
+
+```js
+if (cacheGroups.framework) {
+  cacheGroups.preact = Object.assign({}, cacheGroups.framework, {
+    test: preactModules,
+  });
+  cacheGroups.commons.name = 'framework';
+}
+```
+
+- もしも `splitChunks` の無い version の webpack を使う場合は、`cacheGroups.preact` を commons chunk に入れる
+
+```js
+cacheGroups.preact = {
+  name: 'commons',
+  chunks: 'all',
+  test: preactModules,
+};
+```
+
+### alias
+
+```js
+const aliases = config.resolve.alias || (config.resolve.alias = {});
+aliases.react = aliases['react-dom'] = 'preact/compat';
+```
+
+- `react` `react-dom` を `preact/compat` で resolve するように設定している
+
+> 参考: https://webpack.js.org/configuration/resolve/#resolvealias
+
+### dev 環境向けの設定
+
+```js
+if (dev) {
+  if (isServer) {
+    // Remove circular `__self` and `__source` props only meant for
+    // development. See https://github.com/developit/nextjs-preact-demo/issues/25
+    let oldVNodeHook = preact.options.vnode;
+    preact.options.vnode = (vnode) => {
+      const props = vnode.props;
+      if (props != null) {
+        if ('__self' in props) props.__self = null;
+        if ('__source' in props) props.__source = null;
+      }
+
+      if (oldVNodeHook) {
+        oldVNodeHook(vnode);
+      }
+    };
+  } else {
+    // inject Preact DevTools
+    const entry = config.entry;
+    config.entry = () =>
+      entry().then((entries) => {
+        entries['main.js'] = ['preact/debug'].concat(entries['main.js'] || []);
+        return entries;
+      });
+  }
+}
+```
+
+- `dev` `isServer` は Next.js から提供されている値
+
+> 参考: https://nextjs.org/docs/api-reference/next.config.js/custom-webpack-config
+
+#### Server-side で compile される場合
+
+```js
+if (isServer) {
+  // Remove circular `__self` and `__source` props only meant for
+  // development. See https://github.com/developit/nextjs-preact-demo/issues/25
+  let oldVNodeHook = preact.options.vnode;
+  preact.options.vnode = (vnode) => {
+    const props = vnode.props;
+    if (props != null) {
+      if ('__self' in props) props.__self = null;
+      if ('__source' in props) props.__source = null;
+    }
+
+    if (oldVNodeHook) {
+      oldVNodeHook(vnode);
+    }
+  };
+}
+```
+
+- `if (isServer) { /* ... */ }` の部分が該当
+- Preact には Option hooks という機能があり、Preact の render の挙動に介入することができる
+  - https://preactjs.com/guide/v10/options/#setting-option-hooks
+- `options.vnode` は `VNode` (Preact の Virtual DOM elements) が作成された際に実行される hook
+- dev 環境での`Circular structure in "getInitialProps"` を防ぐために、`props.__self` と `props.__source` を null にしているらしい
+  - 詳細は [Issue](https://github.com/developit/nextjs-preact-demo/issues/25) と[PR](https://github.com/developit/nextjs-preact-demo/pull/29) を参照
+
+#### Client-side で compile される場合
+
+```js
+else {
+    // inject Preact DevTools
+    const entry = config.entry;
+    config.entry = () =>
+      entry().then((entries) => {
+        entries['main.js'] = ['preact/debug'].concat(entries['main.js'] || []);
+        return entries;
+      });
+  }
+```
+
+- `else` 以下の部分が該当
+- Preact の devtools を inject している
+
+## 置き換えた結果
+
+- https://queq1890.info/ の lighthouse の score の比較
+  - bundle size が小さくなった分 perf が向上している
+
+### React
+
+![react](/static/images/React-index.png)
+
+### Preact
+
+![preact](/static/images/Preact-index.png)
