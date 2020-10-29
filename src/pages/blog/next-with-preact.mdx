@@ -1,0 +1,56 @@
+---
+title: Next.js でPreact を使う
+publishedAt: 2020-10-29T08:12:30.933Z
+summary: Next.js にPreact を導入するまでにやったこと
+image: /static/images/preact.jpg
+tags: ['next.js', 'preact.js']
+---
+
+https://github.com/developit/nextjs-preact-demo を参考にしながら、このブログの React を Preact で置き換えたので、やったことをメモしていく。
+
+### 目次
+
+1. [Preact を install する](#preact-を-install-する)
+2. [Webpack の config をする](#webpack-の-config-をする)
+
+## Preact を install する
+
+まずは Preact を install する。
+
+```bash
+$ yarn add preact preact-render-to-string
+```
+
+次に、
+`npm install` を実行する際に、`npm install <alias>@npm:<package>` のように option を指定することで、任意の alias 名で module を install することができる。 (yarn にも同様の option がある)
+今回は、React 関係の module を Preact で置き換えていきたいので、以下のように command を実行する。
+
+```bash
+$ yarn add react@npm:@preact/compat@^0.0.3 react-dom@npm:@preact/compat@^0.0.3 react-ssr-prepass@npm:preact-ssr-prepass@^1.1.2
+```
+
+> 参考: https://classic.yarnpkg.com/en/docs/cli/add/#toc-yarn-add-alias
+
+## Webpack の config をする
+
+https://github.com/developit/nextjs-preact-demo/blob/master/next.config.js からまるっとコピーしてきた。分かる限りで各 config の意味を書いていく。
+
+### experimental: { ... }
+
+```js
+  experimental: {
+    modern: true,
+    polyfillsOptimization: true
+  },
+```
+
+#### modern
+
+- `next build` で生成される build target を modern browser 向けにするかどうかの option
+  - default は false で、ES2015+ 向けの build を生成する
+  - true にすると esmodules target で build を生成する (https://babeljs.io/docs/en/babel-preset-env#targetsesmodules)
+    - 他にも色々やっていそうなので PR を読むと良さそう (https://github.com/vercel/next.js/pull/7704/files)
+
+> 参考: https://github.com/vercel/next.js/discussions/7563
+
+#### polyfillsOptimization
