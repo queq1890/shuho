@@ -1,0 +1,58 @@
+---
+title: 2020年11月8日の雑記
+publishedAt: 2020-11-08T03:40:38.412Z
+summary: 生活の記録
+image: /static/images/zakki-heya.jpg
+tags: ['random']
+---
+
+### 目次
+
+- [生活](#生活)
+- [プログラミング・技術](#プログラミング・技術)
+
+### 引っ越し
+
+- 日本人の多く居住する Ba Dinh 区から、西洋人が多く居住する Tay Ho 区に引っ越した
+- 前の家より広い部屋を借りたが、区によって相場が違うのか、家賃はそこまで変わっていない
+- 今の所快適に暮らせている
+  - 基本的にどこでも英語が通じる
+  - 歩いていける距離に日系のスーパーがある
+  - 作業のできるカフェが近所に多数ある
+- 引越し前に spark joy しないものを捨てまくったので、また色々買い揃えないといけない
+
+![部屋の写真。天井にグルグル回るアレがついている](/static/images/zakki-heya.jpg)
+
+![同僚から頂いた引っ越し祝い。オタク顔がFragment の前で腕組んでて好き](/static/images/zakki-otaku.jpg)
+
+### TWIL
+
+- [C.O.S.A. × KID FRESINO - LOVE (Prod by jjj)](https://www.youtube.com/watch?v=4TRM3cps2Jo) の元ネタが Todd Rundgren だということ
+  - [Todd Rundgren "Marlene"](https://www.youtube.com/watch?v=CsOmABqfDvo)
+- [VULFPECK /// Animal Spirits](https://www.youtube.com/watch?v=qTUnDV3MgVQ) の MV に日本語字幕がついていること
+
+![お腹でラーメンがララる](/static/images/zakki-vulf.png)
+
+## プログラミング・技術
+
+### Next.js で静的サイトを作る素振り
+
+- このブログを作った
+- コードは GitHub に公開している (https://github.com/queq1890/shuho)
+- 作業手順などは以下の記事にまとめた
+  - [Next.js でブログを作り直した](https://queq1890.info/blog/new-blog)
+  - [Next.js で Preact を使う](https://queq1890.info/blog/next-with-preact)
+- 余談だが、このブログの開発は社内での勉強会で Next.js の知見を共有する目的で行った。成果を共有するというゴールがあると、強制的にアウトプットを出さないといけなくなるのが良いなと感じた
+
+### OSS
+
+- Next.js に PR を送った (https://github.com/vercel/next.js/pull/18493)
+  - Next.js + Preact の example の、Next.js の version を上げて Preact 用の Webpack の設定を更新する内容
+  - merge されて [release note](https://github.com/vercel/next.js/releases/tag/v10.0.1) に名前が載った。初めてのことで結構嬉しい
+  - このブログを作る過程で得た知識で PR を作ることができたので、自由に弄れる個人プロジェクトを持っておくのは大事そう
+
+### TWIL
+
+- [webpack-deadcode-plugin](https://www.npmjs.com/package/webpack-deadcode-plugin)
+  - dead code を検出して build から弾いてくれる webpack plugin
+  - リファクタリング以前の code の整理だったり、単一の JS アプリケーションを複数のアプリケーションに分離していく際などに使えそうだなと思った
