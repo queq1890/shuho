@@ -96,6 +96,25 @@ const Hr = () => {
   return <Divider borderColor={borderColor[colorMode]} my={4} w="100%" />;
 };
 
+const CustomImage = (props) => {
+  const { alt } = props;
+
+  return (
+    <figure>
+      <Image {...props} unsized />
+      <Box
+        as="figcaption"
+        textAlign="center"
+        color="gray.700"
+        fontSize="sm"
+        mb={2}
+      >
+        {alt}
+      </Box>
+    </figure>
+  );
+};
+
 const MDXComponents = {
   h1: (props) => <H1 {...props} />,
   h2: (props) => <DocsHeading as="h2" size="lg" fontWeight="bold" {...props} />,
@@ -127,7 +146,7 @@ const MDXComponents = {
   ),
   li: (props) => <Box as="li" pb={1} css={{ maxWidth: '100%' }} {...props} />,
   blockquote: Quote,
-  img: (props) => <Image {...props} unsized />,
+  img: CustomImage,
 };
 
 export default MDXComponents;
