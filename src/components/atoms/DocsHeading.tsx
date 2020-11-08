@@ -11,6 +11,7 @@ const DocsHeading: FC<Props> = (props) => {
   return (
     <Heading
       css={{
+        maxWidth: '100%',
         scrollMarginTop: '100px',
         scrollSnapMargin: '100px', // Safari
         '&[id]': {

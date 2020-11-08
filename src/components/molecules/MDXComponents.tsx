@@ -51,7 +51,14 @@ const CustomLink = (props) => {
   const { href } = props;
   const isExternal = !(href && (href.startsWith('/') || href.startsWith('#')));
 
-  return <Link isExternal={isExternal} {...props} color="primary.500" />;
+  return (
+    <Link
+      isExternal={isExternal}
+      {...props}
+      css={{ maxWidth: '100%' }}
+      color="primary.500"
+    />
+  );
 };
 
 const Quote = (props) => {
@@ -113,12 +120,12 @@ const MDXComponents = {
   a: CustomLink,
   p: (props) => <Text as="p" mt={4} lineHeight="tall" {...props} />,
   ul: (props) => (
-    <Box as="ul" pt={2} pl={4} ml={2} css={{ width: '100%' }} {...props} />
+    <Box as="ul" pt={2} pl={4} ml={2} css={{ maxWidth: '100%' }} {...props} />
   ),
   ol: (props) => (
-    <Box as="ol" pt={2} pl={4} ml={2} css={{ width: '100%' }} {...props} />
+    <Box as="ol" pt={2} pl={4} ml={2} css={{ maxWidth: '100%' }} {...props} />
   ),
-  li: (props) => <Box as="li" pb={1} css={{ width: '100%' }} {...props} />,
+  li: (props) => <Box as="li" pb={1} css={{ maxWidth: '100%' }} {...props} />,
   blockquote: Quote,
   img: (props) => <Image {...props} unsized />,
 };
