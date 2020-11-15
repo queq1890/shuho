@@ -4,3 +4,8 @@ node_modules/
 coverage/
 
 .vercel
+
+.DS_Store
+._.DS_Store
+**/.DS_Store
+**/._.DS_Store
