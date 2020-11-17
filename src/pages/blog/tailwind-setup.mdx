@@ -190,6 +190,19 @@ module.exports = {
 };
 ```
 
+また、Tailwind CSS 公式では、utility classes の CSS のみを purge することを推奨しているため、`src/tailwind.css` の記述を以下のように変更する。
+
+```css
+/* src/tailwind.css */
+
+/* purgecss start ignore */
+@tailwind base;
+@tailwind components;
+/* purgecss end ignore */
+
+@tailwind utilities;
+```
+
 ## ハマったところ
 
 ### autoprefixer を plugin に追加するとビルドが失敗する
