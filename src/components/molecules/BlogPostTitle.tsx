@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { format } from 'date-fns';
 import _Image from 'next/image';
 import styled from '@emotion/styled';
-import { Flex, Text, Box } from '@chakra-ui/core';
+import { Flex, Text, Box } from '@chakra-ui/react';
 import H1 from 'components/atoms/H1';
 
 type Props = {

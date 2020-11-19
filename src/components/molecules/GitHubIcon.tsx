@@ -1,4 +1,4 @@
-import { Icon } from '@chakra-ui/core';
+import { Icon } from '@chakra-ui/react';
 
 const GitHubIcon = (props) => {
   return (

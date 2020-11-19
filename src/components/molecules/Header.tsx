@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import NextLink from 'next/link';
-import { Flex, Button } from '@chakra-ui/core';
+import { Flex, Button } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
 const Header: FC = () => {

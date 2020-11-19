@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import { AppProps } from 'next/app';
 import { MDXProvider } from '@mdx-js/react';
-import { Global, css } from '@emotion/core';
-import { ChakraProvider } from '@chakra-ui/core';
+import { Global, css } from '@emotion/react';
+import { ChakraProvider } from '@chakra-ui/react';
 import MDXComponents from 'components/molecules/MDXComponents';
 
 import theme from 'utility/theme';
