@@ -5,7 +5,7 @@
   "author": "Yuji Matusmoto (queq1890) <yuji.matsumoto@sun-asterisk.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "next dev",
+    "dev": "yarn clear && next dev",
     "clear": "rimraf .next/ .mdx-data/",
     "build": "yarn clear && next build",
     "start": "yarn clear && next start",

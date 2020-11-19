@@ -1,13 +1,13 @@
 import { FC } from 'react';
 import NextLink from 'next/link';
-import { Flex, Button, Box } from '@chakra-ui/core';
+import { Flex, Button } from '@chakra-ui/core';
 import styled from '@emotion/styled';
 
 const Header: FC = () => {
   return (
     <StickyNav
       bg="rgba(255, 255, 255, 0.8)"
-      flexDirection="row"
+      flexDirection="row-reverse"
       justifyContent="space-between"
       alignItems="center"
       maxWidth="900px"
@@ -18,13 +18,18 @@ const Header: FC = () => {
       mb={[0, 0, 8]}
       mx="auto"
     >
-      <Box>
+      <Flex>
         <NextLink href="/" passHref>
           <Button as="a" variant="ghost" p={[1, 4]}>
             Home
           </Button>
         </NextLink>
-      </Box>
+        <NextLink href="/about" passHref>
+          <Button as="a" variant="ghost" p={[1, 4]}>
+            About
+          </Button>
+        </NextLink>
+      </Flex>
     </StickyNav>
   );
 };

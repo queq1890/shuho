@@ -1,12 +1,26 @@
 import { NextPage } from 'next';
-import Header from 'components/molecules/Header';
+import { NextSeo } from 'next-seo';
+import { Box, Text } from '@chakra-ui/core';
+import MainLayout from 'components/molecules/MainLayout';
+import { defaultSeoConfig } from 'constants/seo';
+import AvatarWithName from 'components/molecules/AvatarWithName';
 
-// TODO: implement
 const About: NextPage = () => {
   return (
-    <div>
-      <Header />
-    </div>
+    <>
+      <NextSeo {...defaultSeoConfig} />
+      <MainLayout>
+        <Box p={4} maxW="auto">
+          <AvatarWithName />
+
+          <Box mt={4}>
+            <Text>
+              ベトナム・ハノイ在住のWebアプリケーションエンジニアです。
+            </Text>
+          </Box>
+        </Box>
+      </MainLayout>
+    </>
   );
 };
 
