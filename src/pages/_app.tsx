@@ -26,6 +26,7 @@ const MyApp = (props: AppProps) => {
             @font-face {
               font-family: 'Rubik';
               src: url('/fonts/Rubik-Regular.ttf');
+              font-display: swap;
             }
 
             /* TODO: Dark mode */
