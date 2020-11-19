@@ -1,4 +1,4 @@
-import { Heading } from '@chakra-ui/core';
+import { Heading } from '@chakra-ui/react';
 
 const H1 = (props) => {
   return (

@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Box, Heading } from '@chakra-ui/core';
+import { Box, Heading } from '@chakra-ui/react';
 
 type Props = {
   id: string;

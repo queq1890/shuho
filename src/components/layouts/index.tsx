@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Flex } from '@chakra-ui/core';
+import { Flex } from '@chakra-ui/react';
 
 import Header from 'components/molecules/Header';
 import BlogSeo from 'components/molecules/BlogSeo';

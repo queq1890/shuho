@@ -7,7 +7,7 @@ import {
   Text,
   Divider,
   useColorMode,
-} from '@chakra-ui/core';
+} from '@chakra-ui/react';
 import Image from 'next/image';
 import DocsHeading from 'components/atoms/DocsHeading';
 import H1 from 'components/atoms/H1';

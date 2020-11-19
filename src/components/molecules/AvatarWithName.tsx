@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Box, Flex, Text, Link, HStack } from '@chakra-ui/core';
+import { Box, Flex, Text, Link, HStack } from '@chakra-ui/react';
 import GitHubIcon from 'components/molecules/GitHubIcon';
 import TwitterIcon from './TwitterIcon';
 

@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
-import { Box, Text } from '@chakra-ui/core';
+import { Box, Text } from '@chakra-ui/react';
 import MainLayout from 'components/molecules/MainLayout';
 import { defaultSeoConfig } from 'constants/seo';
 import AvatarWithName from 'components/molecules/AvatarWithName';

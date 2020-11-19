@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import NextLink from 'next/link';
 import { FrontMatter } from 'types/models/post';
-import { Box, Heading, Link, Text } from '@chakra-ui/core';
+import { Box, Heading, Link, Text } from '@chakra-ui/react';
 
 type Props = {
   post: FrontMatter;

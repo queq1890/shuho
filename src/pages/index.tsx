@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
-import { Stack } from '@chakra-ui/core';
+import { Stack } from '@chakra-ui/react';
 import { FrontMatter } from 'types/models/post';
 import MainLayout from 'components/molecules/MainLayout';
 import BlogPost from 'components/molecules/BlogPost';
