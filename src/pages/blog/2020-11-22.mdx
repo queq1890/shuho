@@ -1,0 +1,81 @@
+---
+title: 2020年11月15日の雑記
+publishedAt: 2020-11-15
+summary: 屋上でなにかしたい
+image: /static/images/2020-11-22/zakki-okujoh.jpg
+tags: ['random']
+---
+
+### 目次
+
+- [生活](#生活)
+- [プログラミング・技術](#プログラミング・技術)
+
+## 生活
+
+### 屋上
+
+- 住んでいるアパートの屋上が開放されていることに気がついた
+
+  - 自分の部屋で食べ物を用意して屋上でワイワイするやつをやりたい
+
+  ![屋上](/static/images/2020-11-22/zakki-okujoh.jpg)
+
+### 物欲
+
+- 引っ越しからしばらく経ち、生活が落ち着いてきたからか、物欲がでてきた
+  - カメラ
+    - 35mm 買えるところ結構ありそう
+    - 日本だと写真屋で印刷 + データ化までできていたが、ハノイでもできるんだろうか
+    - 最悪コピー屋に印刷した写真持ってく？
+  - iPad
+    - サブディスプレイ
+    - 高級メモ帳
+    - 自分のサイト用の素材を自炊してみたい
+  - 作業用机
+    - PC とモニタを置いておく場所がほしい
+    - 卓上ライト
+    - (よく考えたら椅子もいる)
+  - レコードプレイヤー
+    - Pond Records に Technics のタンテが売ってるらしい
+  - ベランダに置く椅子
+  - スピーカー
+
+### ベトナム語
+
+- 勉強しなければという気持ちが強くなってきている
+  - チーム内で話せる言語が 2 種類のみ(日本語・英語)なのは自分だけ(?)
+  - 単語と読解は自分で勉強できそう
+  - 発音 / 会話 / 作文がこの言語の一番難しいところな気がしているので、添削してもらわないとダメそう
+  - Telex の入力練習アプリ作る？
+
+## プログラミング・技術
+
+### [prisma](https://www.prisma.io/)
+
+- prisma1 以来触っていなかった prisma を試してみている
+  - かなり便利に感じる。Schema がシンプルで書きやすいのと、prisma client の API が直感的で使いやすい
+  - Node.js で ORM を選定する時には第一候補に上がると思う
+    - (migartion なども含めると ORM 以上のことをやっているのだけれども)
+  - migrate 周りのコマンドを実行する際に `--experimental` のフラグをつけないといけないあたりまだまだ破壊的な変更が入っていくんだろうな〜とも思う
+
+### [@nexus/schema](https://nexusjs.org/)
+
+- prisma と組み合わせて GraphQL の API を実装するのに使ってみている
+  - Mutation / Query など、resolver 単位でファイル分割していたところを、nexus だとどういう風に分離していけばよいのかあまり分かっていない
+    - [`extendType`](https://nexusjs.org/docs/api/extend-type) [`queryField`](https://nexusjs.org/docs/api/query-field) [`mutationField`](https://nexusjs.org/docs/api/mutation-field) でいけそう
+  - [`nexus-plugin-prisma`](https://nexusjs.org/docs/pluginss/prisma/overview) の `t.model` で prisma の schema で定義した型を nexus の世界に持ってこれる
+    - nexus の generate 時に GraphQL 用の TS の型・`.graphql` ファイルを生成できる
+    - (generate しないと `t.model.<カラム名>` が型エラーになるのに気づかず 1 時間ぐらいハマっていた)
+
+### Apollo Client の query の型付け
+
+- Apollo CLI から Apollo Client の Query / Mutation で使うための型を生成できることを初めて知った
+  - [こちらの記事](https://qiita.com/koedamon/items/0fd3a01f7e398e54b747) が参考になった
+  - こういう型の生成は`graphql-codegen` + plugins でやるものだと思っていたので、Apollo 公式のライブラリだけで完結できることを知れて良かった
+    - もちろん Apollo CLI の型生成は `graphql-codegen` を利用している
+
+## 他にも
+
+- 箇条書きではあるが、毎週雑記を書くことで思考がダンプされている感じがある
+  - 精神衛生上良いので続ける
