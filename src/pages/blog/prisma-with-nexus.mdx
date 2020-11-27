@@ -1,0 +1,475 @@
+---
+title: Prisma + Nexus Schema でGraphQL API を書く
+publishedAt: 2020-11-27
+summary: Prisma + Nexus の環境構築
+image: /static/images/prisma-with-nexus/prisma-with-nexus.png
+tags: ['prisma', 'nexus', 'GraphQL', 'Node.js']
+---
+
+### 目次
+
+1. [Prisma の設定](#prisma-の設定)
+2. [Nexus + GraphQL API の設定](#nexus--graphql-api-の設定)
+
+## Prisma の設定
+
+まずは Prisma 周りの package を install する。
+
+```bash
+$ yarn init -y
+$ yarn add -D @prisma/cli
+$ yarn add @prisma/client
+```
+
+次に、`prisma init` を実行する。
+
+```bash
+$ npx prisma init
+```
+
+`prisma init` を実行すると、root 直下に `prisma/` ディレクトリが生成される。 `prsima/`ディレクトリには、prisma 用の`.env` と、`schema.prisma`が配置されている。
+
+```
+# .env
+
+# Environment variables declared in this file are automatically made available to Prisma.
+# See the documentation for more detail: https://pris.ly/d/prisma-schema#using-environment-variables
+
+# Prisma supports the native connection string format for PostgreSQL, MySQL and SQLite.
+# See the documentation for all the connection string options: https://pris.ly/d/connection-strings
+
+DATABASE_URL="postgresql://johndoe:mypassword@localhost:5432/mydb?schema=public"
+```
+
+```javascript
+// schema.prisma
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+```
+
+生成されたファイルを読むと、 `DATABASE_URL` という環境変数で DB を指定していることが分かる。なので、ここの値を任意のものに変更していく。
+
+```
+# .env
+
+# Environment variables declared in this file are automatically made available to Prisma.
+# See the documentation for more detail: https://pris.ly/d/prisma-schema#using-environment-variables
+
+# Prisma supports the native connection string format for PostgreSQL, MySQL and SQLite.
+# See the documentation for all the connection string options: https://pris.ly/d/connection-strings
+
+DATABASE_URL="postgresql://queq1890:foo@localhost:5432/bar"
+```
+
+> Prisma と組み合わせられる DB の種類については、[公式ドキュメント](https://www.prisma.io/docs/concepts/components/prisma-schema/data-sources/)を参照
+
+続いて、Prisma の schema を記述していく。schema 内で扱える記法については、[公式ドキュメント](https://www.prisma.io/docs/concepts/components/prisma-schema/data-model)に詳しくまとまっている。
+以下は、User と Profile という model を作成して、 User-has-Profile な one-to-one な relation を設定する例である。
+
+```javascript
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id      Int      @id @default(autoincrement())
+  email   String   @unique
+  name    String?
+  role    Role     @default(USER)
+  profile Profile?
+}
+
+model Profile {
+  id      Int     @id @default(autoincrement())
+  bio     String
+  user    User    @relation(fields: [userId], references: [id])
+  userId  Int
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+```
+
+schema の記述を変更したので、今度は DB に変更を反映していく。Prisma CLI から migration 用のコマンド提供されているので、ターミナルから実行する。
+まずは`npx prisma migrate save --experimental` を実行して、migration file を生成する。
+
+```bash
+$ npx prisma migrate save --experimental --name <migration の名前>
+```
+
+上記のコマンドを実行すると、`prisma/` 以下に `migrations/` というディレクトリが生成される。また、migrations 以下には、`<migaration save を実行した日時>-<migration の名前>` のディレクトリが生成されており、migration を実行する時点での schema の構造を示す`schema.prisma`や、この migration を実行することで発行される SQL / 実行前後の diff などを示した`README.md`、実行する処理を json 構造でまとめた `steps.json` が配置されている。
+この状態で、`npx prisma migrate up --experimental` を実行すれば、変更が DB にまで反映される。
+
+```bash
+$ npx prisma migrate up --experimental
+```
+
+migration が終わったら、`npx primsa generate` を実行して、現在の schema に基づいた prisma client 用の型を生成する。
+
+```bash
+$ npx prisma generate
+```
+
+## Nexus + GraphQL API の設定
+
+### Express + Apollo Server の設定
+
+ここまでで prisma の設定はできたので、prisma を利用する API を実装していく。今回は express + Apollo Server の構成で実装する。
+
+```bash
+$ yarn add -D ts-node-dev typescript @types/express
+$ yarn add express apollo-server-express
+```
+
+\*`tsconfig.json` は好みのものを用意する
+
+```bash
+$ touch tsconfig.json
+```
+
+続いて、`src/server.ts` を作成して、express + Apollo Server の構成で server が立ち上がるようにする。
+`package.json` に dev / build 用の script も追記しておく。
+
+```typescript
+// src/server.ts
+
+import express from 'express';
+import { ApolloServer, gql } from 'apollo-server-express';
+
+// TODO: schema を定義したら削除する
+const typeDefs = gql`
+  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
+
+  # This "Book" type defines the queryable fields for every book in our data source.
+  type Book {
+    title: String
+    author: String
+  }
+
+  # The "Query" type is special: it lists all of the available queries that
+  # clients can execute, along with the return type for each. In this
+  # case, the "books" query returns an array of zero or more Books (defined above).
+  type Query {
+    books: [Book]
+  }
+`;
+
+const PORT = 4000;
+
+const app = express();
+const apollo = new ApolloServer({ typeDefs });
+
+apollo.applyMiddleware({ app });
+
+app.listen({ port: PORT }, () =>
+  console.log(`🚀 Server ready at http://localhost:4000${apollo.graphqlPath}`)
+);
+```
+
+```json
+"scripts": {
+  "dev": "ts-node-dev --no-notify --respawn --transpile-only src/server.ts",
+  "build": "tsc -p .",
+  "start": "node dist/server.js",
+}
+```
+
+ここまで記述した状態で、`yarn dev`　を実行すると、GraphQL Playground が立ち上がるようになっている。
+
+### prisma client を context から利用できるようにする
+
+次に、Apollo Server の context に prisma client を追加する。この設定をすることで、全ての resolver から context 経由で prisma client を利用できるようになる。
+
+```typescript
+// src/context.ts
+
+import { PrismaClient } from '@prisma/client';
+import { Request } from 'apollo-server-express';
+
+const prisma = new PrismaClient();
+
+export interface Context {
+  request: Request & any;
+  prisma: PrismaClient;
+}
+
+export function createContext(request: Request): Context {
+  return {
+    request,
+    prisma,
+  };
+}
+```
+
+```typescript
+// src/server.ts
+
+import express from 'express';
+import { ApolloServer, gql } from 'apollo-server-express';
+import { createContext } from './context';
+
+// TODO: schema を定義したら削除する
+const typeDefs = gql`
+  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
+
+  # This "Book" type defines the queryable fields for every book in our data source.
+  type Book {
+    title: String
+    author: String
+  }
+
+  # The "Query" type is special: it lists all of the available queries that
+  # clients can execute, along with the return type for each. In this
+  # case, the "books" query returns an array of zero or more Books (defined above).
+  type Query {
+    books: [Book]
+  }
+`;
+
+const PORT = 4000;
+
+const app = express();
+const apollo = new ApolloServer({ typeDefs, context: createContext });
+
+apollo.applyMiddleware({ app });
+
+app.listen({ port: PORT }, () =>
+  console.log(`🚀 Server ready at http://localhost:4000${apollo.graphqlPath}`)
+);
+```
+
+### Nexus の設定
+
+#### Apollo Server に渡す Schema を書く
+
+次に、Nexus を導入して GraphQL schema を生成できるようにする。
+
+```bash
+$ yarn add @nexus/schema nexus nexus-plugin-prisma
+```
+
+`Nexus` には`makeSchema()`　という API が存在し、プラグイン / feature の toggle / 生成する型　などの挙動を設定しながら GraphQL schema を生成できる。
+
+```typescript
+import * as path from 'path';
+import { makeSchema } from '@nexus/schema';
+import { nexusPrisma } from 'nexus-plugin-prisma';
+
+// TODO: Nexus 用のmodels / resolvers を書く
+import * as types from './types';
+
+const schema = makeSchema({
+  types,
+  plugins: [
+    nexusPrisma({
+      experimentalCRUD: true,
+    }),
+  ],
+  outputs: {
+    schema: path.join(__dirname, './../schema.graphql'),
+    typegen: path.join(__dirname, './generated/apiTypes.ts'),
+  },
+});
+
+export default schema;
+```
+
+`makeSchema` の各 key の役割は以下の通りである。
+
+- `types` には Nexus の type 定義を渡す。こちらは後ほど設定する
+- `plugins` には Nexus の plugin 郡を array で渡す
+  - prisma との連携 plugin である `nexus-plugin-prisma` を渡している
+    - `experimentalCRUD: true` を設定することで、`t.crud` のような記法を使えるようにしている(詳細は後述)
+- `outputs` では Nexus が generate するファイルの path を指定できる
+  - `schema` は `*.graphql` の path
+  - `typegen` は Nexus の type 用の型定義ファイルの path
+    - このファイルを generate することで 後述の `t.model` `t.crud` などに TypeScript 上の型がつくようになる
+
+> `makeSchema()` で設定できる項目については[公式ドキュメント](https://nexusjs.org/docs/api/make-schema)を参照
+
+現状は`types` をまだ記述していないので、型定義を生成することはできないが、`src/server.ts` を書き換えて、schema を Apollo Server に渡すようにする。
+
+```typescript
+// src/server.ts
+
+import express from 'express';
+import { ApolloServer } from 'apollo-server-express';
+import dotenv from 'dotenv';
+import { createContext } from './context';
+import schema from './schema';
+
+const PORT = 4000;
+
+const app = express();
+const apollo = new ApolloServer({ schema, context: createContext });
+
+apollo.applyMiddleware({ app });
+
+app.listen({ port: PORT }, () =>
+  console.log(`🚀 Server ready at http://localhost:4000${apollo.graphqlPath}`)
+);
+```
+
+#### Nexus の types を書く
+
+続いて、先程飛ばした `types` の記述を行っていく。`src/` 以下に、`types/models` `types/resolvers`ディレクトリを作成する。
+`models` には Prisma の Schema に記述した model を Nexus の type にする記述を、`resolvers`には Query / Mutation などの type を記述をする。
+
+```typescript
+// types/index.ts
+
+export * from './models';
+export * from './resolvers';
+```
+
+```typescript
+// types/models/index.ts
+
+// 定義したmodel のtype をexport する
+```
+
+```typescript
+// types/resolvers/index.ts
+
+// 定義したQuery / Mutation のtype をexport する
+```
+
+##### models
+
+`nexus-plugin-prisma` によって、prisma の各 model の attribute を`t.model` 経由で Nexus の type 定義上でも扱えるようになっている。
+以下は `prisma.schema` 上で定義した User model を、Nexus の type として定義する例である。
+
+```typescript
+// types/models/User.ts
+
+import { objectType } from '@nexus/schema';
+
+// prisma.schema 上でのUser
+//
+// model User {
+//   id      Int      @id @default(autoincrement())
+//   email   String   @unique
+//   name    String?
+//   role    Role     @default(USER)
+//   profile Profile?
+// }
+
+export const User = objectType({
+  name: 'User',
+  definition(t) {
+    t.model.id();
+    t.model.email();
+    t.model.name();
+    t.model.role();
+  },
+});
+```
+
+現状では `t.model` を利用している箇所に型エラーが生じてしまっているが、これは後ほど Nexus を使って型定義を生成すれば解消する。
+
+##### resolvers
+
+`nexus-plugin-prisma` の` experimentalCRUD: true` フラグによって、Prisma の各 model に対する CRUD 操作のための Query / Mutation 用の type 定義を`t.crud` から行えるようになっている。
+以下は User を 1 件取得する Query と、User を新規作成する Mutation を定義している例である。
+
+```typescript
+// types/resolvers/Query.ts
+
+import { queryType } from '@nexus/schema';
+
+export const Query = queryType({
+  definition(t) {
+    t.crud.user();
+  },
+});
+```
+
+```typescript
+// types/resolvers/Mutation.ts
+
+import { mutationType } from '@nexus/schema';
+
+export const Mutation = mutationType({
+  definition(t) {
+    t.crud.createOneUser();
+  },
+});
+```
+
+もちろん、`t.field` や `t.list.field` を利用することで、自分で resolver を書くこともできる。以下は User を 1 件削除する Mutation を定義している例である。
+
+```typescript
+import { idArg } from '@nexus/schema';
+
+export const Mutation = mutationType({
+  definition(t) {
+    t.field('deleteUser', {
+      type: 'User',
+      args: {
+        userId: idArg(),
+      },
+      resolve: async (_parent, { userId }, ctx) => {
+        await ctx.prisma.user.delete({
+          where: { id: userId },
+          data: user,
+        });
+      },
+    });
+  },
+});
+```
+
+> `t.crud` `t.model` でできることの詳細については、[公式ドキュメント](https://nexusjs.org/docs/plugins/prisma/api)を参照
+
+> `t.field` `t.list.field` などの、plugin を使わない Query / Mutation 定義の方法については、[こちら](https://nexusjs.org/docs/guides/schema#object-type)を参照
+
+##### Nexus を使って型定義を generate する
+
+types の記述ができたら、いよいよ Nexus を用いて型定義を生成していく。package.json に Nexus 用の script を追加し、実行する。
+
+```json
+"scripts": {
+  "dev": "ts-node-dev --no-notify --respawn --transpile-only src/server.ts",
+  "build": "tsc -p .",
+  "start": "node dist/server.js",
+  "generate:nexus": "ts-node --transpile-only src/schema",
+}
+```
+
+```bash
+$ yarn generate:nexus
+```
+
+これで、 `src/schema.ts` 上で `makeSchema()` の`outputs` option で指定した path に、TypeScript の型定義が生成される。このタイミングで、`t.model` `t.crud` に生じていた型エラーは解消される。
+生成される型定義ファイルは巨大なものとなるため、ここには載せないが、気になる場合は自分が[Nexus + Prisma を使って生成したファイル](https://github.com/queq1890/tango-api/blob/master/src/generated/apiTypes.ts) を確認されたい。
+
+### GraphQL Playground で試してみる
+
+`yarn dev` を実行し、GraphQL Playground を立ち上げて、Nexus の types に書いた models / resolvers が正しく実装できているか試してみる。
+
+```
+$ yarn dev
+```
+
+DOCS / SCHEMA を見てみると、Nexus の type が反映されていることが分かる。
+
+![schema](/static/images/prisma-with-nexus/schema.png)
+
+![docs](/static/images/prisma-with-nexus/docs.png)
