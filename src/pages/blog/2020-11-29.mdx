@@ -1,0 +1,58 @@
+---
+title: 2020年11月29日の雑記
+publishedAt: 2020-11-29
+summary: なんやかんや毎週書いてる
+image: /static/images/2020-11-29/zakki-okujoh.jpg
+tags: ['random']
+---
+
+import { Tweet } from 'react-twitter-widgets';
+
+### 目次
+
+- [生活](#生活)
+- [プログラミング・技術](#プログラミング・技術)
+
+## 生活
+
+### カメラ
+
+- 購入した。アナログにするかデジタルにするか迷いながら何件か店を周り、扱いが面倒な方が練習を頑張るかと思ってアナログにした
+  - Canon の AE-1 + FD 50mm 1.4
+  - 旧市街の [Vintage Cameras](https://goo.gl/maps/VNjbTGAqcZdzrbXT8) にて
+    - 店員さんが優しかった。ベトナム語のできない自分の色々な質問を Google 翻訳越しに答えてくれた
+- カメラ、想像の 100 倍重たい
+- 満足できなくなったらレンズ/デジタル機の購入を検討したい
+  - レンズに沼っている人の気持が少しだけ分かった気がする...
+
+![店](/static/images/2020-11-29/labs.jpg)
+![購入したもの(中古だからしゃあないけどレンズの蓋が純正じゃない)](/static/images/2020-11-29/ae1.jpg)
+
+## プログラミング・技術
+
+### ブログ
+
+- 1 本書いた
+  - [Prisma + Nexus Schema で GraphQL API を書く](https://queq1890.info/blog/prisma-with-nexus)
+  - 文体整えて zenn とかに転載したい
+
+### Tailwind
+
+- Tailwind で CSS modules をやる時に、 `@apply` などのディレクティブを使いたい時はどうすれば良いんだろう
+  - 各コンポーネントのディレクトリに css ファイルがあって、それらを build/watch して、jsx 側では generate された CSS の方を import するようにすれば良い？
+- Tailwind の[Using with Preprocessors](https://tailwindcss.com/docs/using-with-preprocessors) のドキュメント
+  - Build-time imports のところをちゃんと読みたい
+
+### スクラップ
+
+- ↓ の Grid の書き方便利そう
+  - そういえば CSS−in−JS の世界なら `grid-areas` `grid-template-areas` の要素に型を付けられそう
+
+<Tweet tweetId="1333046592811782145" />
+
+## 他にも
+
+- 今週は社のチーム内で勉強会があった。各々勉強した内容だったりサイドプロジェクトについて発表し合うものだった
+  - 人がものづくりをしている話を聞いたり、動いているものを見るのはテンションが上がる。自分ももっとやらなきゃ〜という気持ちになる
+  - 今のところアウトプット中心の勉強会しかやっていないので、インプットする勉強会をやってもいいのかも。例えば Webpack hands-on とか
+    - 「教える」勉強会もやったほうが良い？ 🤔 ここらへん他社でリードやってる人に聞きたい
