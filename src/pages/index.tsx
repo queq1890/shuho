@@ -1,18 +1,19 @@
 import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
+
 import { Stack } from '@chakra-ui/react';
+import getPosts from 'utility/getPosts';
 import { FrontMatter } from 'types/models/post';
 import MainLayout from 'components/molecules/MainLayout';
 import BlogPost from 'components/molecules/BlogPost';
 import { defaultSeoConfig } from 'constants/seo';
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-// eslint-disable-next-line import/no-unresolved
-import { frontMatter as blogPosts } from './blog/*.mdx';
+type Props = {
+  posts: FrontMatter[];
+};
 
-const Index: NextPage = () => {
-  const sortedBlogPosts = blogPosts.sort((a: FrontMatter, b: FrontMatter) => {
+const Index: NextPage<Props> = ({ posts }) => {
+  const sortedBlogPosts = posts.sort((a: FrontMatter, b: FrontMatter) => {
     return (
       new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
     );
@@ -30,6 +31,14 @@ const Index: NextPage = () => {
       </MainLayout>
     </>
   );
+};
+
+export const getStaticProps = () => {
+  const posts = getPosts();
+
+  return {
+    props: { posts },
+  };
 };
 
 export default Index;
