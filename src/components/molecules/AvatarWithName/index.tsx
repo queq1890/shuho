@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Text, Link, HStack } from '@chakra-ui/react';
+import { Link, HStack } from '@chakra-ui/react';
 import GitHubIcon from 'components/molecules/GitHubIcon';
 import TwitterIcon from '../TwitterIcon';
 
@@ -15,13 +15,9 @@ const AvatarWithName = () => {
       <div className="flex flex-col ml-4 items-center">
         <div>
           <div className="flex flex-col items-start lg:items-center">
-            <Text fontSize={['2xl', '2xl', '3xl']} fontWeight="bold">
-              Yuji Matsumoto
-            </Text>
+            <p className="text-2xl lg:text-3xl font-bold">Yuji Matsumoto</p>
 
-            <Text fontSize="xl" color="gray.500" ml={1}>
-              @queq1890
-            </Text>
+            <p className="text-xl text-gray-500 ml-1">@queq1890</p>
           </div>
 
           <HStack alignItems="center" spacing={2} mt={1}>

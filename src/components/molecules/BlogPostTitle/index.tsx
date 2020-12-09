@@ -2,7 +2,6 @@ import { FC } from 'react';
 import { format } from 'date-fns';
 import _Image from 'next/image';
 import styled from '@emotion/styled';
-import { Text } from '@chakra-ui/react';
 import H1 from 'components/atoms/H1';
 
 import styles from './BlogPostTitle.module.scss';
@@ -21,10 +20,10 @@ const BlogPostTitle: FC<Props> = ({ title, publishedAt }) => {
           <div className="mr-4">
             <Image src="/static/images/avatar.jpeg" width={24} height={24} />
           </div>
-          <Text fontSize="sm">
+          <p className="text-sm">
             {'Yuji Matsumoto / '}
             {format(publishedAt, 'MMMM dd, yyyy')}
-          </Text>
+          </p>
         </div>
       </div>
     </div>

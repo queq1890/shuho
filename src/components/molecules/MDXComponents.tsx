@@ -3,7 +3,6 @@ import {
   Code,
   Kbd,
   Link,
-  Text,
   Divider,
   useColorMode,
 } from '@chakra-ui/react';
@@ -108,7 +107,7 @@ const MDXComponents = {
   th: THead,
   td: TData,
   a: CustomLink,
-  p: (props) => <Text as="p" mt={4} lineHeight="tall" {...props} />,
+  p: (props) => <p className="mt-4 leading-6" {...props} />,
   ul: (props) => <ul className="pt-2 pl-4 ml-2 max-w-full" {...props} />,
   ol: (props) => <ol className="pt-2 pl-4 ml-2 max-w-full" {...props} />,
   li: (props) => <li className="pb-1 max-w-full list-disc" {...props} />,
