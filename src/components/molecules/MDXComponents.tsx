@@ -27,7 +27,11 @@ const CustomLink = (props) => {
     : {};
 
   return (
-    <a className="max-w-full text-primary-500" {...props} {...externalProps}>
+    <a
+      className="max-w-full text-primary-500 break-words"
+      {...props}
+      {...externalProps}
+    >
       {children}
     </a>
   );
