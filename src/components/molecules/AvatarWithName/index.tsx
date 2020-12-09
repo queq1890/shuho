@@ -28,7 +28,7 @@ const AvatarWithName = () => {
               rel="noopener noreferrer"
               className="text-decoration-none"
             >
-              <GitHubIcon color="gray.500" />
+              <GitHubIcon />
             </a>
             <a
               href="https://twitter.com/queq1890"
@@ -37,7 +37,7 @@ const AvatarWithName = () => {
               rel="noopener noreferrer"
               className="text-decoration-none"
             >
-              <TwitterIcon color="gray.500" />
+              <TwitterIcon />
             </a>
           </Stack>
         </div>
