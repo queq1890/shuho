@@ -138,13 +138,9 @@ const MDXComponents = {
   td: TData,
   a: CustomLink,
   p: (props) => <Text as="p" mt={4} lineHeight="tall" {...props} />,
-  ul: (props) => (
-    <Box as="ul" pt={2} pl={4} ml={2} css={{ maxWidth: '100%' }} {...props} />
-  ),
-  ol: (props) => (
-    <Box as="ol" pt={2} pl={4} ml={2} css={{ maxWidth: '100%' }} {...props} />
-  ),
-  li: (props) => <Box as="li" pb={1} css={{ maxWidth: '100%' }} {...props} />,
+  ul: (props) => <ul className="pt-2 pl-4 ml-2 max-w-full" {...props} />,
+  ol: (props) => <ol className="pt-2 pl-4 ml-2 max-w-full" {...props} />,
+  li: (props) => <li className="pb-1 max-w-full list-disc" {...props} />,
   blockquote: Quote,
   img: CustomImage,
 };
