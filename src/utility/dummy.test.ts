@@ -1,5 +1,5 @@
-import theme from './theme';
+import getPosts from './getPosts';
 
 it('is dummy', () => {
-  console.log(theme);
+  console.log(getPosts);
 });

@@ -1,8 +1,14 @@
-import { Heading } from '@chakra-ui/react';
+import { FC } from 'react';
 
-const H1 = (props) => {
+type Props = {
+  id: string;
+};
+
+const H1: FC<Props> = ({ id, children }) => {
   return (
-    <Heading as="h1" size="2xl" my={4} css={{ maxWidth: '100%' }} {...props} />
+    <h1 className="my-4 max-w-full text-5xl font-bold" id={id}>
+      {children}
+    </h1>
   );
 };
 

@@ -1,6 +1,5 @@
 import { NextPage } from 'next';
 import { NextSeo } from 'next-seo';
-import { Box, Text } from '@chakra-ui/react';
 import MainLayout from 'components/molecules/MainLayout';
 import { defaultSeoConfig } from 'constants/seo';
 import AvatarWithName from 'components/molecules/AvatarWithName';
@@ -10,15 +9,13 @@ const About: NextPage = () => {
     <>
       <NextSeo {...defaultSeoConfig} />
       <MainLayout>
-        <Box p={4} maxW="auto">
+        <div className="p-4 max-w-full">
           <AvatarWithName />
 
-          <Box mt={4}>
-            <Text>
-              ベトナム・ハノイ在住のWebアプリケーションエンジニアです。
-            </Text>
-          </Box>
-        </Box>
+          <div className="mt-4">
+            <p>ベトナム・ハノイ在住のWebアプリケーションエンジニアです。</p>
+          </div>
+        </div>
       </MainLayout>
     </>
   );

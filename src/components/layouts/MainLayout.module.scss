@@ -1,0 +1,5 @@
+.article {
+  @apply flex flex-col justify-center items-start mx-auto w-full;
+
+  max-width: 700px;
+}

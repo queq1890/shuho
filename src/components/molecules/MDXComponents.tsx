@@ -1,99 +1,40 @@
-import {
-  Box,
-  Alert,
-  Code,
-  Kbd,
-  Link,
-  Text,
-  Divider,
-  useColorMode,
-} from '@chakra-ui/react';
 import Image from 'next/image';
 import DocsHeading from 'components/atoms/DocsHeading';
 import H1 from 'components/atoms/H1';
+import Quote from 'components/atoms/Quote';
 
-const Table = (props) => (
-  <Box as="table" textAlign="left" mt="32px" width="full" {...props} />
-);
+// FIXME: stop props spreading
+
+const Table = (props) => <table className="text-left mt-6 w-max" {...props} />;
 
 const THead = (props) => {
-  const { colorMode } = useColorMode();
-  const bg = {
-    light: 'gray.50',
-    dark: 'whiteAlpha.100',
-  };
-
-  return (
-    <Box
-      as="th"
-      bg={bg[colorMode]}
-      fontWeight="semibold"
-      p={2}
-      fontSize="sm"
-      {...props}
-    />
-  );
+  return <th className="bg-gray-50 font-semibold p-2 text-sm" {...props} />;
 };
 
 const TData = (props) => (
-  <Box
-    as="td"
-    p={2}
-    borderTopWidth="1px"
-    borderColor="inherit"
-    fontSize="sm"
-    whiteSpace="normal"
+  <td
+    className="p-2 border-t	border-current text-sm whitespace-normal"
     {...props}
   />
 );
 
 const CustomLink = (props) => {
-  const { href } = props;
+  const { children, href } = props;
   const isExternal = !(href && (href.startsWith('/') || href.startsWith('#')));
 
-  return (
-    <Link
-      isExternal={isExternal}
-      {...props}
-      css={{ maxWidth: '100%' }}
-      color="primary.500"
-    />
-  );
-};
-
-const Quote = (props) => {
-  const { colorMode } = useColorMode();
-  const bgColor = {
-    light: 'primary.50',
-    dark: 'primary.900',
-  };
+  const externalProps = isExternal
+    ? { target: '_blank', rel: 'noopener noreferrer' }
+    : {};
 
   return (
-    <Alert
-      mt={4}
-      w="98%"
-      bg={bgColor[colorMode]}
-      variant="left-accent"
-      status="info"
-      css={{
-        '> *:first-of-type': {
-          marginTop: 0,
-          marginLeft: 8,
-        },
-      }}
-      {...props}
-    />
+    <a className="max-w-full text-primary-500" {...props} {...externalProps}>
+      {children}
+    </a>
   );
 };
 
 const Hr = () => {
-  const { colorMode } = useColorMode();
-  const borderColor = {
-    light: 'gray.200',
-    dark: 'gray.600',
-  };
-
-  return <Divider borderColor={borderColor[colorMode]} my={4} w="100%" />;
+  return <hr className="border-top border-gray-200 my-4 w-full" />;
 };
 
 const CustomImage = (props) => {
@@ -102,49 +43,36 @@ const CustomImage = (props) => {
   return (
     <figure>
       <Image {...props} unsized />
-      <Box
-        as="figcaption"
-        textAlign="center"
-        color="gray.700"
-        fontSize="sm"
-        mb={2}
-      >
+      <figcaption className="text-center text-gray-700 text-sm mb-2">
         {alt}
-      </Box>
+      </figcaption>
     </figure>
   );
 };
 
 const MDXComponents = {
   h1: (props) => <H1 {...props} />,
-  h2: (props) => <DocsHeading as="h2" size="lg" fontWeight="bold" {...props} />,
-  h3: (props) => <DocsHeading as="h3" size="md" fontWeight="bold" {...props} />,
-  h4: (props) => <DocsHeading as="h4" size="sm" fontWeight="bold" {...props} />,
-  h5: (props) => <DocsHeading as="h5" size="xs" fontWeight="bold" {...props} />,
-  h6: (props) => <DocsHeading as="h6" size="xs" fontWeight="bold" {...props} />,
+  h2: (props) => <DocsHeading as="h2" size="3xl" {...props} />,
+  h3: (props) => <DocsHeading as="h3" size="xl" {...props} />,
+  h4: (props) => <DocsHeading as="h4" size="base" {...props} />,
+  h5: (props) => <DocsHeading as="h5" size="sm" {...props} />,
+  h6: (props) => <DocsHeading as="h6" size="sm" {...props} />,
   inlineCode: (props) => (
-    <Code
-      colorScheme="yellow"
-      fontSize="0.84em"
-      css={{ whiteSpace: 'pre-wrap' }}
+    <code
+      className="whitespace-prewrap bg-yellow-100 text-yellow-900 mdx-inline-code text-xs px-1 py-0.5"
       {...props}
     />
   ),
-  kbd: Kbd,
-  br: (props) => <Box height="24px" {...props} />,
+  br: (props) => <div className="h-6" {...props} />,
   hr: Hr,
   table: Table,
   th: THead,
   td: TData,
   a: CustomLink,
-  p: (props) => <Text as="p" mt={4} lineHeight="tall" {...props} />,
-  ul: (props) => (
-    <Box as="ul" pt={2} pl={4} ml={2} css={{ maxWidth: '100%' }} {...props} />
-  ),
-  ol: (props) => (
-    <Box as="ol" pt={2} pl={4} ml={2} css={{ maxWidth: '100%' }} {...props} />
-  ),
-  li: (props) => <Box as="li" pb={1} css={{ maxWidth: '100%' }} {...props} />,
+  p: (props) => <p className="mt-4 leading-6" {...props} />,
+  ul: (props) => <ul className="pt-2 pl-4 ml-2 max-w-full" {...props} />,
+  ol: (props) => <ol className="pt-2 pl-4 ml-2 max-w-full" {...props} />,
+  li: (props) => <li className="pb-1 max-w-full list-disc" {...props} />,
   blockquote: Quote,
   img: CustomImage,
 };
