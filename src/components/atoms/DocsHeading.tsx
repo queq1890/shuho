@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Box, Heading } from '@chakra-ui/react';
+import { Heading } from '@chakra-ui/react';
 
 type Props = {
   id: string;
@@ -23,27 +23,18 @@ const DocsHeading: FC<Props> = (props) => {
       mb={['0.5em', '0.5em', '1em']}
       mt={['1em', '1em', '2em']}
     >
-      <Box pointerEvents="auto">
+      <div className="pointer-events-auto">
         {children}
         {id && (
-          <Box
+          <a
+            className="text-primary-500 font-normal outline-none ml-1.5 opacity-0 focus:opacity-100 shadow"
             aria-label="anchor"
-            as="a"
-            color="primary.500"
-            fontWeight="normal"
-            outline="none"
-            _focus={{
-              opacity: 1,
-              boxShadow: 'outline',
-            }}
-            opacity={0}
-            ml="0.375rem"
             href={`#${id}`}
           >
             #
-          </Box>
+          </a>
         )}
-      </Box>
+      </div>
     </Heading>
   );
 };

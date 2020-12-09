@@ -1,23 +1,19 @@
 import Image from 'next/image';
-import { Box, Text, Link, HStack } from '@chakra-ui/react';
+import { Text, Link, HStack } from '@chakra-ui/react';
 import GitHubIcon from 'components/molecules/GitHubIcon';
-import TwitterIcon from './TwitterIcon';
+import TwitterIcon from '../TwitterIcon';
+
+import styles from './AvatarWithName.module.scss';
 
 const AvatarWithName = () => {
   return (
     <div className="flex">
-      <Box
-        css={{
-          img: {
-            borderRadius: '50%',
-          },
-        }}
-      >
+      <div className={styles['img-container']}>
         <Image src="/static/images/avatar.jpeg" width={100} height={100} />
-      </Box>
+      </div>
 
       <div className="flex flex-col ml-4 items-center">
-        <Box>
+        <div>
           <div className="flex flex-col items-start lg:items-center">
             <Text fontSize={['2xl', '2xl', '3xl']} fontWeight="bold">
               Yuji Matsumoto
@@ -46,7 +42,7 @@ const AvatarWithName = () => {
               <TwitterIcon color="gray.500" />
             </Link>
           </HStack>
-        </Box>
+        </div>
       </div>
     </div>
   );

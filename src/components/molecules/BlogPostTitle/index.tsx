@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { format } from 'date-fns';
 import _Image from 'next/image';
 import styled from '@emotion/styled';
-import { Text, Box } from '@chakra-ui/react';
+import { Text } from '@chakra-ui/react';
 import H1 from 'components/atoms/H1';
 
 import styles from './BlogPostTitle.module.scss';
@@ -18,9 +18,9 @@ const BlogPostTitle: FC<Props> = ({ title, publishedAt }) => {
       <H1>{title}</H1>
       <div className="flex justify-between items-start md:items-center flex-col md:flex-row mt-2 mb-4 w-full">
         <div className="flex items-center">
-          <Box mr={2}>
+          <div className="mr-4">
             <Image src="/static/images/avatar.jpeg" width={24} height={24} />
-          </Box>
+          </div>
           <Text fontSize="sm">
             {'Yuji Matsumoto / '}
             {format(publishedAt, 'MMMM dd, yyyy')}
