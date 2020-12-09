@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import NextLink from 'next/link';
 import { FrontMatter } from 'types/models/post';
-import { Heading, Link } from '@chakra-ui/react';
+import { Link } from '@chakra-ui/react';
 
 type Props = {
   post: FrontMatter;
@@ -14,7 +14,7 @@ const BlogPost: FC<Props> = ({ post }) => {
     <NextLink href={`blog/${slug}`} passHref>
       <Link w="100%" href={`blog/${slug}`}>
         <div className="p-5">
-          <Heading fontSize="xl">{post.title}</Heading>
+          <h2 className="text-xl font-bold">{post.title}</h2>
           <p className="mt-4 text-gray-700">{post.summary}</p>
         </div>
       </Link>
