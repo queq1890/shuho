@@ -139,6 +139,10 @@ module.exports = {
       },
     ],
     'import/prefer-default-export': 'off',
+
+    // jsx-a11y
+    'jsx-a11y/anchor-is-valid': 'off',
+
     'prettier/prettier': ['error', { singleQuote: true }],
   },
   settings: {

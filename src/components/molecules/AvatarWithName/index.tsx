@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Link, HStack } from '@chakra-ui/react';
+import { HStack } from '@chakra-ui/react';
 import GitHubIcon from 'components/molecules/GitHubIcon';
 import TwitterIcon from '../TwitterIcon';
 
@@ -21,22 +21,24 @@ const AvatarWithName = () => {
           </div>
 
           <HStack alignItems="center" spacing={2} mt={1}>
-            <Link
+            <a
               href="https://github.com/queq1890"
               title="GitHub"
-              isExternal
-              textDecoration="none"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-decoration-none"
             >
               <GitHubIcon color="gray.500" />
-            </Link>
-            <Link
+            </a>
+            <a
               href="https://twitter.com/queq1890"
               title="Twitter"
-              isExternal
-              textDecoration="none"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-decoration-none"
             >
               <TwitterIcon color="gray.500" />
-            </Link>
+            </a>
           </HStack>
         </div>
       </div>

@@ -1,11 +1,4 @@
-import {
-  Alert,
-  Code,
-  Kbd,
-  Link,
-  Divider,
-  useColorMode,
-} from '@chakra-ui/react';
+import { Alert, Code, Kbd, Divider, useColorMode } from '@chakra-ui/react';
 import Image from 'next/image';
 import DocsHeading from 'components/atoms/DocsHeading';
 import H1 from 'components/atoms/H1';
@@ -24,16 +17,17 @@ const TData = (props) => (
 );
 
 const CustomLink = (props) => {
-  const { href } = props;
+  const { children, href } = props;
   const isExternal = !(href && (href.startsWith('/') || href.startsWith('#')));
 
+  const externalProps = isExternal
+    ? { target: '_blank', rel: 'noopener noreferrer' }
+    : {};
+
   return (
-    <Link
-      isExternal={isExternal}
-      {...props}
-      css={{ maxWidth: '100%' }}
-      color="primary.500"
-    />
+    <a className="max-w-full text-primary-500" {...props} {...externalProps}>
+      {children}
+    </a>
   );
 };
 
