@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import { HStack } from '@chakra-ui/react';
 import GitHubIcon from 'components/molecules/GitHubIcon';
+import Stack from 'components/atoms/Stack';
 import TwitterIcon from '../TwitterIcon';
 
 import styles from './AvatarWithName.module.scss';
@@ -20,7 +20,7 @@ const AvatarWithName = () => {
             <p className="text-xl text-gray-500 ml-1">@queq1890</p>
           </div>
 
-          <HStack alignItems="center" spacing={2} mt={1}>
+          <Stack direction="row" className="items-center mt-2" spacing={2}>
             <a
               href="https://github.com/queq1890"
               title="GitHub"
@@ -39,7 +39,7 @@ const AvatarWithName = () => {
             >
               <TwitterIcon color="gray.500" />
             </a>
-          </HStack>
+          </Stack>
         </div>
       </div>
     </div>

@@ -1,11 +1,25 @@
 .stack {
-  @apply flex flex-col;
+  @apply flex;
+}
+
+.direction-column {
+  @apply flex-col;
+}
+
+.direction-row {
+  @apply flex-row;
 }
 
 @for $i from 1 through 8 {
-  .spacing-#{$i} {
+  .spacing-#{$i}-column {
     :nth-child(n + 2) {
       margin-top: calc(0.25rem * #{$i});
+    }
+  }
+
+  .spacing-#{$i}-row {
+    :nth-child(n + 2) {
+      margin-left: calc(0.25rem * #{$i});
     }
   }
 }

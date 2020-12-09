@@ -6,10 +6,28 @@ const cx = classNames.bind(styles);
 
 type Props = {
   spacing: number;
+  direction?: 'column' | 'row';
+  className?: string;
 };
 
-const Stack: FC<Props> = ({ spacing, children }) => {
-  return <div className={cx('stack', `spacing-${spacing}`)}>{children}</div>;
+const Stack: FC<Props> = ({
+  spacing,
+  direction = 'column',
+  className,
+  children,
+}) => {
+  return (
+    <div
+      className={cx(
+        'stack',
+        `direction-${direction}`,
+        `spacing-${spacing}-${direction}`,
+        className
+      )}
+    >
+      {children}
+    </div>
+  );
 };
 
 export default Stack;
