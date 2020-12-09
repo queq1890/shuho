@@ -1,0 +1,11 @@
+.stack {
+  @apply flex flex-col;
+}
+
+@for $i from 1 through 8 {
+  .spacing-#{$i} {
+    :nth-child(n + 2) {
+      margin-top: calc(0.25rem * #{$i});
+    }
+  }
+}
