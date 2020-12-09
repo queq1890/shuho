@@ -14,7 +14,7 @@ type Props = {
 const BlogPostTitle: FC<Props> = ({ title, publishedAt }) => {
   return (
     <div className={styles.root}>
-      <H1>{title}</H1>
+      <H1 id={title}>{title}</H1>
       <div className="flex justify-between items-start md:items-center flex-col md:flex-row mt-2 mb-4 w-full">
         <div className="flex items-center">
           <div className="mr-4">
