@@ -4,7 +4,7 @@ import { MDXProvider } from '@mdx-js/react';
 import { Global, css } from '@emotion/react';
 import { ChakraProvider } from '@chakra-ui/react';
 import MDXComponents from 'components/molecules/MDXComponents';
-
+import 'tailwindcss/tailwind.css';
 import theme from 'utility/theme';
 import { prismLightTheme } from 'utility/prismTheme';
 
