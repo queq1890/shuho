@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import NextLink from 'next/link';
-import { Button } from '@chakra-ui/react';
 
 import styles from './Header.module.scss';
 
@@ -9,14 +8,10 @@ const Header: FC = () => {
     <div className={styles.root}>
       <div className="flex">
         <NextLink href="/" passHref>
-          <Button as="a" variant="ghost" p={[1, 4]}>
-            Home
-          </Button>
+          <a className="p-1 md:p-4 font-semibold">Home</a>
         </NextLink>
         <NextLink href="/about" passHref>
-          <Button as="a" variant="ghost" p={[1, 4]}>
-            About
-          </Button>
+          <a className="p-1 md:p-4 font-semibold">About</a>
         </NextLink>
       </div>
     </div>

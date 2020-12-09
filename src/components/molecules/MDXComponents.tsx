@@ -1,7 +1,9 @@
-import { Alert, Code, Kbd, Divider, useColorMode } from '@chakra-ui/react';
 import Image from 'next/image';
 import DocsHeading from 'components/atoms/DocsHeading';
 import H1 from 'components/atoms/H1';
+import Quote from 'components/atoms/Quote';
+
+// FIXME: stop props spreading
 
 const Table = (props) => <table className="text-left mt-6 w-max" {...props} />;
 
@@ -31,39 +33,8 @@ const CustomLink = (props) => {
   );
 };
 
-const Quote = (props) => {
-  const { colorMode } = useColorMode();
-  const bgColor = {
-    light: 'primary.50',
-    dark: 'primary.900',
-  };
-
-  return (
-    <Alert
-      mt={4}
-      w="98%"
-      bg={bgColor[colorMode]}
-      variant="left-accent"
-      status="info"
-      css={{
-        '> *:first-of-type': {
-          marginTop: 0,
-          marginLeft: 8,
-        },
-      }}
-      {...props}
-    />
-  );
-};
-
 const Hr = () => {
-  const { colorMode } = useColorMode();
-  const borderColor = {
-    light: 'gray.200',
-    dark: 'gray.600',
-  };
-
-  return <Divider borderColor={borderColor[colorMode]} my={4} w="100%" />;
+  return <hr className="border-top border-gray-200 my-4 w-full" />;
 };
 
 const CustomImage = (props) => {
@@ -87,14 +58,11 @@ const MDXComponents = {
   h5: (props) => <DocsHeading as="h5" size="sm" {...props} />,
   h6: (props) => <DocsHeading as="h6" size="sm" {...props} />,
   inlineCode: (props) => (
-    <Code
-      colorScheme="yellow"
-      fontSize="0.84em"
-      css={{ whiteSpace: 'pre-wrap' }}
+    <code
+      className="whitespace-prewrap bg-yellow-100 text-yellow-900 mdx-inline-code text-xs px-1 py-0.5"
       {...props}
     />
   ),
-  kbd: Kbd,
   br: (props) => <div className="h-6" {...props} />,
   hr: Hr,
   table: Table,

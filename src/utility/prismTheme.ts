@@ -5,8 +5,8 @@ const prismBaseTheme = css`
   code {
     white-space: pre;
   }
-  code:not(.chakra-code),
-  pre:not(.chakra-code) {
+  code:not(.mdx-inline-code),
+  pre:not(.mdx-inline-code) {
     color: ${theme.colors.gray[800]};
     background: none;
     font-family: ${theme.fonts.mono};
@@ -26,7 +26,7 @@ const prismBaseTheme = css`
     width: 100%;
   }
   /* Code blocks */
-  pre:not(.chakra-code) {
+  pre:not(.mdx-inline-code) {
     padding-top: ${theme.space[4]};
     padding-bottom: ${theme.space[4]};
     padding-left: ${theme.space[4]};
@@ -37,14 +37,14 @@ const prismBaseTheme = css`
     font-size: 0.9rem;
     white-space: nowrap;
   }
-  :not(pre) > code:not(.chakra-code),
-  pre:not(.chakra-code) {
+  :not(pre) > code:not(.mdx-inline-code),
+  pre:not(.mdx-inline-code) {
     background: ${theme.colors.gray[50]};
     border: 1px solid ${theme.colors.gray[200]};
     border-radius: ${theme.radii.lg};
   }
   /* Inline code */
-  :not(pre) > code:not(.chakra-code) {
+  :not(pre) > code:not(.mdx-inline-code) {
     padding: 0.1em;
     border-radius: 0.3em;
     white-space: normal;
@@ -141,12 +141,12 @@ const prismBaseTheme = css`
 
 export const prismLightTheme = css`
   ${prismBaseTheme};
-  code:not(.chakra-code),
-  pre:not(.chakra-code) {
+  code:not(.mdx-inline-code),
+  pre:not(.mdx-inline-code) {
     color: ${theme.colors.gray[800]};
   }
-  :not(pre) > code:not(.chakra-code),
-  pre:not(.chakra-code) {
+  :not(pre) > code:not(.mdx-inline-code),
+  pre:not(.mdx-inline-code) {
     background: ${theme.colors.gray[50]};
     border: 1px solid ${theme.colors.gray[200]};
   }
@@ -157,7 +157,7 @@ export const prismLightTheme = css`
 
 export const prismDarkTheme = css`
   ${prismBaseTheme};
-  :not(pre) > code:not(.chakra-code) {
+  :not(pre) > code:not(.mdx-inline-code) {
     background: #011627;
   }
   .token.attr-name {
@@ -209,13 +209,13 @@ export const prismDarkTheme = css`
     color: rgb(178, 204, 214);
   }
 
-  code:not(.chakra-code),
-  pre:not(.chakra-code) {
+  code:not(.mdx-inline-code),
+  pre:not(.mdx-inline-code) {
     color: ${theme.colors.gray[50]};
   }
 
-  :not(pre) > code:not(.chakra-code),
-  pre:not(.chakra-code) {
+  :not(pre) > code:not(.mdx-inline-code),
+  pre:not(.mdx-inline-code) {
     background: ${theme.colors.gray[800]};
     border: 1px solid ${theme.colors.gray[700]};
   }
