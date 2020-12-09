@@ -1,11 +1,11 @@
 import Image from 'next/image';
-import { Box, Flex, Text, Link, HStack } from '@chakra-ui/react';
+import { Box, Text, Link, HStack } from '@chakra-ui/react';
 import GitHubIcon from 'components/molecules/GitHubIcon';
 import TwitterIcon from './TwitterIcon';
 
 const AvatarWithName = () => {
   return (
-    <Flex>
+    <div className="flex">
       <Box
         css={{
           img: {
@@ -15,17 +15,10 @@ const AvatarWithName = () => {
       >
         <Image src="/static/images/avatar.jpeg" width={100} height={100} />
       </Box>
-      <Flex
-        ml={4}
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-      >
+
+      <div className="flex flex-col ml-4 items-center">
         <Box>
-          <Flex
-            alignItems={['left', 'left', 'center']}
-            direction={['column', 'column', 'row']}
-          >
+          <div className="flex flex-col items-start lg:items-center">
             <Text fontSize={['2xl', '2xl', '3xl']} fontWeight="bold">
               Yuji Matsumoto
             </Text>
@@ -33,7 +26,7 @@ const AvatarWithName = () => {
             <Text fontSize="xl" color="gray.500" ml={1}>
               @queq1890
             </Text>
-          </Flex>
+          </div>
 
           <HStack alignItems="center" spacing={2} mt={1}>
             <Link
@@ -54,8 +47,8 @@ const AvatarWithName = () => {
             </Link>
           </HStack>
         </Box>
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   );
 };
 
