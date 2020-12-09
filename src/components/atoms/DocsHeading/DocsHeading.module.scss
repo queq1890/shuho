@@ -1,0 +1,30 @@
+.root {
+  @apply mb-2 lg:mb-4 mt-4 lg:mt-8 font-bold;
+
+  max-width: 100%;
+  scroll-margin-top: 100px;
+  scroll-snap-margin: 100px;
+
+  &[id] {
+    pointer-events: none;
+  }
+  &[id]:hover a {
+    opacity: 1;
+  }
+}
+
+.size-sm {
+  @apply text-sm;
+}
+
+.size-base {
+  @apply text-base;
+}
+
+.size-xl {
+  @apply text-xl;
+}
+
+.size-3xl {
+  @apply text-3xl;
+}
