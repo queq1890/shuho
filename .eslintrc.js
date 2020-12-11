@@ -116,6 +116,7 @@ module.exports = {
     'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/display-name': 'off',
+    'react/jsx-props-no-spreading': 'off',
 
     // react hooks
     'react-hooks/rules-of-hooks': 'error',
@@ -139,6 +140,10 @@ module.exports = {
       },
     ],
     'import/prefer-default-export': 'off',
+
+    // jsx-a11y
+    'jsx-a11y/anchor-is-valid': 'off',
+
     'prettier/prettier': ['error', { singleQuote: true }],
   },
   settings: {

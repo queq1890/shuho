@@ -1,10 +1,11 @@
 import { FC } from 'react';
-import { Flex } from '@chakra-ui/core';
 
 import Header from 'components/molecules/Header';
 import BlogSeo from 'components/molecules/BlogSeo';
 import { FrontMatter } from 'types/models/post';
 import BlogPostTitle from 'components/molecules/BlogPostTitle';
+
+import styles from './MainLayout.module.scss';
 
 type Props = {
   frontMatter: FrontMatter;
@@ -25,23 +26,15 @@ const MainLayout: FC<Props> = ({ children, frontMatter }) => {
         publishedAt={frontMatter.publishedAt}
         image={frontMatter.image}
       />
-      <Flex direction="column" as="main" justifyContent="center" px={[4, 8]}>
-        <Flex
-          as="article"
-          direction="column"
-          justifyContent="center"
-          alignItems="flex-start"
-          m="0 auto 4rem auto"
-          maxWidth="700px"
-          w="100%"
-        >
+      <main className="flex flex-col justify-center md:px-8 px-4">
+        <article className={styles.article}>
           <BlogPostTitle
             title={frontMatter.title}
             publishedAt={frontMatter.publishedAt}
           />
           {children}
-        </Flex>
-      </Flex>
+        </article>
+      </main>
     </>
   );
 };

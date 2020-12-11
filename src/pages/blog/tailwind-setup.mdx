@@ -1,0 +1,225 @@
+---
+title: Tailwind CSS + Create React App の環境構築
+publishedAt: 2020-11-17
+summary: Tailwind CSS の環境構築
+tags: ['tailwind']
+---
+
+### 目次
+
+- [Create React App で新しいプロジェクトを作成する](#create-react-app-で新しいプロジェクトを作成する)
+- [Tailwind CSS と Post CSS の設定を行う](#tailwind-css-と-post-css-の設定を行う)
+- [PostCSS の plugins を追加する](#tailwind-css-と-post-css-の設定を行う)
+- [ハマったところ](#ハマったところ)
+
+## Create React App で新しいプロジェクトを作成する
+
+まずは Create React App を用いて React SPA を scaffolding する。
+
+```bash
+$ npx create-react-app example --template typescript
+```
+
+## Tailwind CSS と Post CSS の設定を行う
+
+次に、Tailwind CSS と Post CSS をプロジェクトに導入していく。
+
+```
+$ yarn add tailwindcss postcss-cli
+```
+
+必要な module が install できたら、Tailwind CSS の config ファイルを作成する。以下のコマンドを実行することで、root に `tailwind.config.js` が生成される。
+
+```bash
+$ npx tailwindcss init
+```
+
+```js
+// tailwind.config.js
+
+module.exports = {
+  future: {},
+  purge: [],
+  theme: {
+    extend: {},
+  },
+  variants: {},
+  plugins: [],
+};
+```
+
+`tailwind.config.js` は生成された段階では特に何もカスタマイズされていないが、このままでも Tailwind CSS を使用することができる。
+
+> `tailwind.config.js` で設定できる項目については、[公式ドキュメント](https://tailwindcss.com/docs/configuration)を参照
+
+Tailwind CSS 用の設定ファイルが生成できたら、今度は Post CSS の設定ファイルを生成していく。こちらは、特に init 用の command などはないので、`touch` で作成する。
+現時点では、`plugins: [require('tailwindcss')]` のように記述しておいて、Tailwind を Post CSS から読む込むようにしておけば良い。
+
+```bash
+$ touch postcss.config.js
+```
+
+```js
+// postcss.config.js
+
+module.exports = {
+  plugins: [require('tailwindcss')],
+};
+```
+
+次に、Post CSS で build を行う際に、input となる CSS ファイルを作成する。今回は `src/tailwind.css`という名前で、Tailwind の基本となる CSS を読み込むファイルを作成した。
+
+```css
+/* src/tailwind.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+## build / dev 環境用の script を追加する
+
+ここまでで Tailwind / Post CSS を使う準備はできたので、`package.json` に build / dev 環境用の script を追加していく。
+
+### build
+
+Post CSS の build は、Create React App の build とは全く関係がないため、自分たちで build 用の script を設定する必要がある。
+以下のように `prebuild` のタイミングで Post CSS の build を実行するようにすることで、bundle に Post CSS が generate した CSS を含めることができるようになる。
+
+```json
+  "scripts": {
+    "build:tailwind": "postcss src/tailwind.css -o src/tailwind.generated.css",
+    "prebuild": "npm run build:tailwind",
+    "build": "react-scripts build",
+  },
+```
+
+ただし、Post CSS はあくまで CSS ファイルを生成するだけなので、生成される CSS を React コンポーネント側で import する必要がある。
+上記の例の場合、`src/tailwind.generated.css` を `src/index.tsx` で import すれば良い。
+
+```tsx
+// src/index.tsx
+import './tailwind.generated.css';
+```
+
+余談だが、ここで生成される　`tailwind.generated.css` はかなり巨大なファイルになるため、`.gitignore` に追加しておいたほうが良い。
+
+```
+# .gitignore
+src/tailwind.generated.css
+```
+
+### dev 環境用の script
+
+Create React App を使って生成された React Project には、hot reload / fast refresh が導入されており、手元のエディタで行った変更はすぐに dev server で起動しているプロセスに反映される。
+しかし、今回は CSS を Post CSS を使って自前で build しているため、CSS 側の変更を直ぐに反映するためには、こちらも変更がある度に差分を build し直すような仕組みが必要になる。
+Post CSS の CLI を実行する際に `-w` という option を渡すことでこれを達成できるので、Create React App の dev server を起動する script と並列で実行できるようにしておけば良い。
+
+まずは`npm-run-all` を install し、並列実行をできるようにする。
+
+```bash
+$ yarn add npm-run-all
+```
+
+次に、 `-w` option 付きで Post CSS CLI を実行する script と、並列実行用の script を追加する。
+
+```json
+  "scripts": {
+    "watch:tailwind": "postcss -w src/tailwind.css -o src/tailwind.generated.css",
+    "start": "react-scripts start",
+    "dev": "run-p watch:tailwind start",
+  }
+```
+
+これで、`yarn dev` を実行すれば、JS も CSS も最新の差分が dev 環境に反映されるようになる。
+
+## PostCSS の plugins を追加する
+
+ここまでの設定だけでも Tailwind CSS を利用できるのだが、PostCSS の plugin を 2 種追加して、build の生成物を少し変更する。
+
+### autoprefixer
+
+`autoprefixer` プラグインを設定することで、CSS に bender prefix を自動で追加できる。
+
+```bash
+$ yarn add autoprefixer
+```
+
+```js
+// postcss.config.js
+
+module.exports = {
+  plugins: [require('tailwindcss'), require('autoprefixer')],
+};
+```
+
+### Purge CSS
+
+`Purge CSS` プラグインを設定することで、Post CSS が generate する CSS から、使用されていない記述を削除できる。
+Tailwind CSS はデフォルトだと使われていない CSS も全て bundle に含めるようになっているため、`Purge CSS` の設定を行うことで、bundle size の軽減を期待できる。
+
+> Tailwind CSS の purge の設定は、`tailwind.config.js` の `purge` option でも設定することができる。詳細は[公式ドキュメント](https://tailwindcss.com/docs/controlling-file-size)を参照
+
+今回は、[公式ドキュメント](https://tailwindcss.com/docs/controlling-file-size#setting-up-purge-css-manually)を参考に、`postcss.config.js` に purge 用の記述を追加する方法で実装した。
+
+```bash
+$ yarn add @fullhuman/postcss-purgecss -D
+```
+
+```js
+// postcss.config.js
+
+const purgecss = require('@fullhuman/postcss-purgecss')({
+  content: ['./public/**/*.html', './src/**/*.tsx', './src/**/*.jsx'],
+  defaultExtractor: (content) => {
+    // Capture as liberally as possible, including things like `h-(screen-1.5)`
+    const broadMatches = content.match(/[^<>"'`\s]*[^<>"'`\s:]/g) || [];
+
+    // Capture classes within other delimiters like .block(class="w-1/2") in Pug
+    const innerMatches = content.match(/[^<>"'`\s.()]*[^<>"'`\s.():]/g) || [];
+
+    return broadMatches.concat(innerMatches);
+  },
+});
+
+module.exports = {
+  plugins: [
+    require('tailwindcss'),
+    require('autoprefixer'),
+    ...(process.env.NODE_ENV === 'production' ? [purgecss] : []),
+  ],
+};
+```
+
+また、Tailwind CSS 公式では、utility classes の CSS のみを purge することを推奨しているため、`src/tailwind.css` の記述を以下のように変更する。
+
+```css
+/* src/tailwind.css */
+
+/* purgecss start ignore */
+@tailwind base;
+@tailwind components;
+/* purgecss end ignore */
+
+@tailwind utilities;
+```
+
+## ハマったところ
+
+### autoprefixer を plugin に追加するとビルドが失敗する
+
+autoprefixer のバージョンをダウングレードすることで解決した。正確な理由はまだ把握していないので、今度調べる。
+
+```bash
+$ yarn add autoprefixer@9.8.6
+```
+
+### Purge CSS が効かない
+
+Create React App の `build` コマンドは、暗黙的に `NODE_ENV` を `production` に設定するが、`prebuild` はあくまで自分で追加した script なので、明示的に`NODE_ENV` を指定しないといけない。
+`postcss.config.js` の設定上だと、`NODE_ENV` が`production` の場合のみ purge するように設定していたため、`NODE_ENV` 付きで `prebuild` を実行していない従来の script だと、purge されない bundle が生成されてしまっていた。
+
+```json
+  "scripts": {
+    "prebuild": "NODE_ENV=production npm run build:tailwind",
+  }
+```

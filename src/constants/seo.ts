@@ -15,7 +15,7 @@ const defaultSeoConfig: NextSeoProps = {
     description,
     images: [
       {
-        url: 'https://queq1890.info/static/images/android-chrome-192x192.png', // TODO: put og image to static folder
+        url: 'https://queq1890.info/static/favicons/android-chrome-512x512.png',
         alt: title,
         width: 1280,
         height: 720,

@@ -1,12 +1,23 @@
 import { NextPage } from 'next';
-import Header from 'components/molecules/Header';
+import { NextSeo } from 'next-seo';
+import MainLayout from 'components/molecules/MainLayout';
+import { defaultSeoConfig } from 'constants/seo';
+import AvatarWithName from 'components/molecules/AvatarWithName';
 
-// TODO: implement
 const About: NextPage = () => {
   return (
-    <div>
-      <Header />
-    </div>
+    <>
+      <NextSeo {...defaultSeoConfig} />
+      <MainLayout>
+        <div className="p-4 max-w-full">
+          <AvatarWithName />
+
+          <div className="mt-4">
+            <p>ベトナム・ハノイ在住のWebアプリケーションエンジニアです。</p>
+          </div>
+        </div>
+      </MainLayout>
+    </>
   );
 };
 

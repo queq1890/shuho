@@ -1,0 +1,16 @@
+html {
+  min-width: 300px;
+  scroll-behavior: smooth;
+}
+
+#__next {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: white;
+}
+
+* {
+  font-family: 'Helvetica Neue', 'Segoe UI', 'Hiragino Kaku Gothic ProN',
+    'Hiragino Sans', Meiryo, sans-serif;
+}

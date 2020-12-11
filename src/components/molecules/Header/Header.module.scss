@@ -1,0 +1,11 @@
+.root {
+  @apply flex flex-row-reverse justify-between items-center w-full px-8 py-4 lg:py-8 lg:mt-8 lg:mb-8 mx-auto;
+
+  max-width: 900px;
+  background: rgba(255, 255, 255, 0.8);
+  position: sticky;
+  z-index: 10;
+  top: 0;
+  backdrop-filter: saturate(180%) blur(20px);
+  transition: background-color 0.1 ease-in-out;
+}
