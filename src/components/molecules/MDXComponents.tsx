@@ -2,6 +2,7 @@ import Image from 'next/image';
 import DocsHeading from 'components/atoms/DocsHeading';
 import H1 from 'components/atoms/H1';
 import Quote from 'components/atoms/Quote';
+import { Tweet } from 'react-twitter-widgets';
 
 // FIXME: stop props spreading
 
@@ -55,6 +56,7 @@ const CustomImage = (props) => {
 };
 
 const MDXComponents = {
+  // for markdown elements
   h1: (props) => <H1 {...props} />,
   h2: (props) => <DocsHeading as="h2" size="3xl" {...props} />,
   h3: (props) => <DocsHeading as="h3" size="xl" {...props} />,
@@ -79,6 +81,9 @@ const MDXComponents = {
   li: (props) => <li className="pb-1 max-w-full list-disc" {...props} />,
   blockquote: Quote,
   img: CustomImage,
+
+  // addtinal components
+  Tweet,
 };
 
 export default MDXComponents;

@@ -3,7 +3,5 @@ export type FrontMatter = {
   summary: string;
   image: string;
   publishedAt: Date;
-
-  // meta data
-  __resourcePath: string;
+  slug: string;
 };

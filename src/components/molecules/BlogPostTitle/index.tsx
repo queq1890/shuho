@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { format } from 'date-fns';
 import Image from 'next/image';
 import H1 from 'components/atoms/H1';
 
@@ -21,7 +20,7 @@ const BlogPostTitle: FC<Props> = ({ title, publishedAt }) => {
           </div>
           <p className="text-sm">
             {'Yuji Matsumoto / '}
-            {format(publishedAt, 'MMMM dd, yyyy')}
+            {publishedAt}
           </p>
         </div>
       </div>

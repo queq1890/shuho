@@ -12,9 +12,7 @@ type Props = {
 };
 
 const MainLayout: FC<Props> = ({ children, frontMatter }) => {
-  const slug = frontMatter.__resourcePath
-    .replace('blog/', '')
-    .replace('.mdx', '');
+  const { slug } = frontMatter;
 
   return (
     <>
