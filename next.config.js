@@ -1,5 +1,3 @@
-const mdxPrism = require('mdx-prism');
-const withMdxEnhanced = require('next-mdx-enhanced');
 const withPreact = require('next-plugin-preact');
 
 const config = {
@@ -18,16 +16,4 @@ const config = {
   },
 };
 
-module.exports = withPreact(
-  withMdxEnhanced({
-    fileExtensions: ['mdx'],
-    layoutPath: 'src/components/layouts',
-    defaultLayout: true,
-    remarkPlugins: [
-      require('remark-autolink-headings'),
-      require('remark-slug'),
-      require('remark-code-titles'),
-    ],
-    rehypePlugins: [mdxPrism],
-  })(config)
-);
+module.exports = withPreact(config);
