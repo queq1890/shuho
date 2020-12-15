@@ -7,7 +7,7 @@ type Props = {
 };
 
 const BlogPost: FC<Props> = ({ post }) => {
-  const slug = post.__resourcePath.replace('blog/', '').replace('.mdx', '');
+  const { slug } = post;
 
   return (
     <NextLink href={`blog/${slug}`} passHref>
