@@ -6,4 +6,5 @@ export type FrontMatter = {
 
   // meta data
   __resourcePath: string;
+  slug: string;
 };

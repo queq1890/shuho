@@ -4,7 +4,7 @@ import path from 'path';
 import matter from 'gray-matter';
 
 const getPosts = () => {
-  const pathToBlogPost = './src/pages/blog';
+  const pathToBlogPost = './contents';
   const fileNames = fs.readdirSync(pathToBlogPost).map((fileName) => fileName);
   const posts = fileNames.map((fileName) => {
     const file = fs.readFileSync(path.join(pathToBlogPost, fileName), 'utf-8');
