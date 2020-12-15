@@ -13,93 +13,91 @@ tags: ['karabiner-elements']
 下記のものは左側の shift と ⌘ を押した時に入力ソースが順番に入れ替わるようにする例。
 Mac のショートカットとぶつかってしまっているので後で書き直す。
 
-```
-{
-  "title": "Language toggler",
-  "rules": [
     {
-      "description": "Left_Shift+Left_Command language toggle (en->vi->ja->en...)",
-      "manipulators": [
+      "title": "Language toggler",
+      "rules": [
         {
-          "conditions": [
+          "description": "Left_Shift+Left_Command language toggle (en->vi->ja->en...)",
+          "manipulators": [
             {
-              "type": "input_source_if",
-              "input_sources": [
+              "conditions": [
                 {
-                  "language": "en"
+                  "type": "input_source_if",
+                  "input_sources": [
+                    {
+                      "language": "en"
+                    }
+                  ]
+                }
+              ],
+              "type": "basic",
+              "from": {
+                "key_code": "left_shift",
+                "modifiers": {
+                  "mandatory": ["left_command"]
+                }
+              },
+              "to": [
+                {
+                  "select_input_source": {
+                    "language": "vi"
+                  }
                 }
               ]
-            }
-          ],
-          "type": "basic",
-          "from": {
-            "key_code": "left_shift",
-            "modifiers": {
-              "mandatory": ["left_command"]
-            }
-          },
-          "to": [
+            },
             {
-              "select_input_source": {
-                "language": "vi"
-              }
-            }
-          ]
-        },
-        {
-          "conditions": [
-            {
-              "type": "input_source_if",
-              "input_sources": [
+              "conditions": [
                 {
-                  "language": "vi"
+                  "type": "input_source_if",
+                  "input_sources": [
+                    {
+                      "language": "vi"
+                    }
+                  ]
+                }
+              ],
+              "type": "basic",
+              "from": {
+                "key_code": "left_shift",
+                "modifiers": {
+                  "mandatory": ["left_command"]
+                }
+              },
+              "to": [
+                {
+                  "select_input_source": {
+                    "language": "ja"
+                  }
                 }
               ]
-            }
-          ],
-          "type": "basic",
-          "from": {
-            "key_code": "left_shift",
-            "modifiers": {
-              "mandatory": ["left_command"]
-            }
-          },
-          "to": [
+            },
             {
-              "select_input_source": {
-                "language": "ja"
-              }
-            }
-          ]
-        },
-        {
-          "conditions": [
-            {
-              "type": "input_source_if",
-              "input_sources": [
+              "conditions": [
                 {
-                  "language": "ja"
+                  "type": "input_source_if",
+                  "input_sources": [
+                    {
+                      "language": "ja"
+                    }
+                  ]
+                }
+              ],
+              "type": "basic",
+              "from": {
+                "key_code": "left_shift",
+                "modifiers": {
+                  "mandatory": ["left_command"]
+                }
+              },
+              "to": [
+                {
+                  "select_input_source": {
+                    "language": "en"
+                  }
                 }
               ]
-            }
-          ],
-          "type": "basic",
-          "from": {
-            "key_code": "left_shift",
-            "modifiers": {
-              "mandatory": ["left_command"]
-            }
-          },
-          "to": [
-            {
-              "select_input_source": {
-                "language": "en"
-              }
             }
           ]
         }
       ]
     }
-  ]
-}
-```
