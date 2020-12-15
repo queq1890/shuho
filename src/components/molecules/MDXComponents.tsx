@@ -42,19 +42,6 @@ const Hr = () => {
   return <hr className="border-top border-gray-200 my-4 w-full" />;
 };
 
-const CustomImage = (props) => {
-  const { alt } = props;
-
-  return (
-    <figure>
-      <Image {...props} unsized />
-      <figcaption className="text-center text-gray-700 text-sm mb-2">
-        {alt}
-      </figcaption>
-    </figure>
-  );
-};
-
 const MDXComponents = {
   // for markdown elements
   h1: (props) => <H1 {...props} />,
@@ -80,10 +67,10 @@ const MDXComponents = {
   ol: (props) => <ol className="pt-2 pl-4 ml-2 max-w-full" {...props} />,
   li: (props) => <li className="pb-1 max-w-full list-disc" {...props} />,
   blockquote: Quote,
-  img: CustomImage,
 
   // addtinal components
   Tweet,
+  Image,
 };
 
 export default MDXComponents;
