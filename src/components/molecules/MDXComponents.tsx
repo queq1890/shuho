@@ -52,7 +52,7 @@ const MDXComponents = {
   h6: (props) => <DocsHeading as="h6" size="sm" {...props} />,
   inlineCode: (props) => (
     <code
-      className="whitespace-prewrap bg-yellow-100 text-yellow-900 mdx-inline-code text-xs px-1 py-0.5"
+      className="whitespace-normal bg-yellow-100 text-yellow-900 mdx-inline-code text-xs px-1 py-0.5"
       {...props}
     />
   ),
