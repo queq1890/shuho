@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: 'Vulf Mono';
+    src: url('/fonts/Vulf_Mono/Vulf_Mono-Regular_web.woff2') format('woff2');
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Vulf Mono';
+    src: url('/fonts/Vulf_Mono/Vulf_Mono-Light_web.woff2') format('woff2');
+    font-weight: 300;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Vulf Mono';
+    src: url('/fonts/Vulf_Mono/Vulf_Mono-Bold_web.woff2') format('woff2');
+    font-weight: 700;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Vulf Mono';
+    src: url('/fonts/Vulf_Mono/Vulf_Mono-Black_web.woff2') format('woff2');
+    font-weight: 800;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Vulf Mono';
+    src: url('/fonts/Vulf_Mono/Vulf_Mono-Italic_web.woff2') format('woff2');
+    font-style: italic;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Vulf Mono';
+    src: url('/fonts/Vulf_Mono/Vulf_Mono-Light_Italic_web.woff2')
+      format('woff2');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Vulf Mono';
+    src: url('/fonts/Vulf_Mono/Vulf_Mono-Bold_Italic_web.woff2') format('woff2');
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Vulf Mono';
+    src: url('/fonts/Vulf_Mono/Vulf_Mono-Black_Italic_web.woff2')
+      format('woff2');
+    font-weight: 800;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Vulf Sans';
+    src: url('/fonts/Vulf_Sans/Vulf_Sans-Regular_web.woff2') format('woff2');
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Vulf Sans';
+    src: url('/fonts/Vulf_Sans/Vulf_Sans-Light_web.woff2') format('woff2');
+    font-weight: 300;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Vulf Sans';
+    src: url('/fonts/Vulf_Sans/Vulf_Sans-Medium_web.woff2') format('woff2');
+    font-weight: 500;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Vulf Sans';
+    src: url('/fonts/Vulf_Sans/Vulf_Sans-Bold_web.woff2') format('woff2');
+    font-weight: 700;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Vulf Sans';
+    src: url('/fonts/Vulf_Sans/Vulf_Sans-Black_web.woff2') format('woff2');
+    font-weight: 800;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Vulf Sans';
+    src: url('/fonts/Vulf_Sans/Vulf_Sans-Italic_web.woff2') format('woff2');
+    font-style: italic;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Vulf Sans';
+    src: url('/fonts/Vulf_Sans/Vulf_Sans-Light_Italic_web.woff2')
+      format('woff2');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Vulf Sans';
+    src: url('/fonts/Vulf_Sans/Vulf_Sans-Medium_Italic_web.woff2')
+      format('woff2');
+    font-weight: 500;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Vulf Sans';
+    src: url('/fonts/Vulf_Sans/Vulf_Sans-Bold_Italic_web.woff2') format('woff2');
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Vulf Sans';
+    src: url('/fonts/Vulf_Sans/Vulf_Sans-Black_Italic_web.woff2')
+      format('woff2');
+    font-weight: 800;
+    font-style: italic;
+    font-display: swap;
+  }
+}

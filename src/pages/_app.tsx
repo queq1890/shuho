@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { AppProps } from 'next/app';
-import 'tailwindcss/tailwind.css';
+import 'styles/tailwind.scss';
 import 'styles/prism.scss';
 import 'styles/global.scss';
 
