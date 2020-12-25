@@ -6,6 +6,10 @@ module.exports = {
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    fontFamily: {
+      'vulf-mono': ['Vulf Mono'],
+      'vulf-sans': ['Vulf Sans'],
+    },
     extend: {
       colors: {
         primary: {
