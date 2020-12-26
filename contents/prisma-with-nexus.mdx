@@ -8,8 +8,8 @@ tags: ['prisma', 'nexus', 'GraphQL', 'Node.js']
 
 ### 目次
 
-1. [Prisma の設定](#prisma-の設定)
-2. [Nexus + GraphQL API の設定](#nexus--graphql-api-の設定)
+1.  [Prisma の設定](#prisma-の設定)
+2.  [Nexus + GraphQL API の設定](#nexus--graphql-api-の設定)
 
 ## Prisma の設定
 
@@ -29,17 +29,15 @@ $ npx prisma init
 
 `prisma init` を実行すると、root 直下に `prisma/` ディレクトリが生成される。 `prsima/`ディレクトリには、prisma 用の`.env` と、`schema.prisma`が配置されている。
 
-```
-# .env
+    # .env
 
-# Environment variables declared in this file are automatically made available to Prisma.
-# See the documentation for more detail: https://pris.ly/d/prisma-schema#using-environment-variables
+    # Environment variables declared in this file are automatically made available to Prisma.
+    # See the documentation for more detail: https://pris.ly/d/prisma-schema#using-environment-variables
 
-# Prisma supports the native connection string format for PostgreSQL, MySQL and SQLite.
-# See the documentation for all the connection string options: https://pris.ly/d/connection-strings
+    # Prisma supports the native connection string format for PostgreSQL, MySQL and SQLite.
+    # See the documentation for all the connection string options: https://pris.ly/d/connection-strings
 
-DATABASE_URL="postgresql://johndoe:mypassword@localhost:5432/mydb?schema=public"
-```
+    DATABASE_URL="postgresql://johndoe:mypassword@localhost:5432/mydb?schema=public"
 
 ```javascript
 // schema.prisma
@@ -59,17 +57,15 @@ generator client {
 
 生成されたファイルを読むと、 `DATABASE_URL` という環境変数で DB を指定していることが分かる。なので、ここの値を任意のものに変更していく。
 
-```
-# .env
+    # .env
 
-# Environment variables declared in this file are automatically made available to Prisma.
-# See the documentation for more detail: https://pris.ly/d/prisma-schema#using-environment-variables
+    # Environment variables declared in this file are automatically made available to Prisma.
+    # See the documentation for more detail: https://pris.ly/d/prisma-schema#using-environment-variables
 
-# Prisma supports the native connection string format for PostgreSQL, MySQL and SQLite.
-# See the documentation for all the connection string options: https://pris.ly/d/connection-strings
+    # Prisma supports the native connection string format for PostgreSQL, MySQL and SQLite.
+    # See the documentation for all the connection string options: https://pris.ly/d/connection-strings
 
-DATABASE_URL="postgresql://queq1890:foo@localhost:5432/bar"
-```
+    DATABASE_URL="postgresql://queq1890:foo@localhost:5432/bar"
 
 > Prisma と組み合わせられる DB の種類については、[公式ドキュメント](https://www.prisma.io/docs/concepts/components/prisma-schema/data-sources/)を参照
 
@@ -464,12 +460,20 @@ $ yarn generate:nexus
 
 `yarn dev` を実行し、GraphQL Playground を立ち上げて、Nexus の types に書いた models / resolvers が正しく実装できているか試してみる。
 
-```
-$ yarn dev
-```
+    $ yarn dev
 
 DOCS / SCHEMA を見てみると、Nexus の type が反映されていることが分かる。
 
-![schema](/static/images/prisma-with-nexus/schema.png)
+<Image
+  alt={`schema`}
+  src={`/static/images/prisma-with-nexus/schema.png`}
+  width={840}
+  height={1080}
+/>
 
-![docs](/static/images/prisma-with-nexus/docs.png)
+<Image
+  alt={`docs`}
+  src={`/static/images/prisma-with-nexus/docs.png`}
+  width={640}
+  height={1080}
+/>

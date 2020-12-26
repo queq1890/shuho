@@ -8,9 +8,11 @@ html {
   flex-direction: column;
   min-height: 100vh;
   background: white;
+  word-break: break-word;
+  word-wrap: break-word;
 }
 
 * {
-  font-family: 'Helvetica Neue', 'Segoe UI', 'Hiragino Kaku Gothic ProN',
-    'Hiragino Sans', Meiryo, sans-serif;
+  font-family: 'Vulf Sans', 'Helvetica Neue', 'Segoe UI',
+    'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
 }

@@ -24,9 +24,7 @@ $ npx create-react-app example --template typescript
 
 次に、Tailwind CSS と Post CSS をプロジェクトに導入していく。
 
-```
-$ yarn add tailwindcss postcss-cli
-```
+    $ yarn add tailwindcss postcss-cli
 
 必要な module が install できたら、Tailwind CSS の config ファイルを作成する。以下のコマンドを実行することで、root に `tailwind.config.js` が生成される。
 
@@ -103,10 +101,8 @@ import './tailwind.generated.css';
 
 余談だが、ここで生成される　`tailwind.generated.css` はかなり巨大なファイルになるため、`.gitignore` に追加しておいたほうが良い。
 
-```
-# .gitignore
-src/tailwind.generated.css
-```
+    # .gitignore
+    src/tailwind.generated.css
 
 ### dev 環境用の script
 

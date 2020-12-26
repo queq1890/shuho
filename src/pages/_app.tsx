@@ -1,8 +1,6 @@
 import Head from 'next/head';
 import { AppProps } from 'next/app';
-import { MDXProvider } from '@mdx-js/react';
-import MDXComponents from 'components/molecules/MDXComponents';
-import 'tailwindcss/tailwind.css';
+import 'styles/tailwind.scss';
 import 'styles/prism.scss';
 import 'styles/global.scss';
 
@@ -17,10 +15,7 @@ const MyApp = (props: AppProps) => {
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
       </Head>
-
-      <MDXProvider components={MDXComponents}>
-        <Component {...pageProps} />
-      </MDXProvider>
+      <Component {...pageProps} />
     </>
   );
 };

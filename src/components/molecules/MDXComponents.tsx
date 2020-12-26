@@ -2,6 +2,7 @@ import Image from 'next/image';
 import DocsHeading from 'components/atoms/DocsHeading';
 import H1 from 'components/atoms/H1';
 import Quote from 'components/atoms/Quote';
+import { Tweet } from 'react-twitter-widgets';
 
 // FIXME: stop props spreading
 
@@ -41,20 +42,8 @@ const Hr = () => {
   return <hr className="border-top border-gray-200 my-4 w-full" />;
 };
 
-const CustomImage = (props) => {
-  const { alt } = props;
-
-  return (
-    <figure>
-      <Image {...props} unsized />
-      <figcaption className="text-center text-gray-700 text-sm mb-2">
-        {alt}
-      </figcaption>
-    </figure>
-  );
-};
-
 const MDXComponents = {
+  // for markdown elements
   h1: (props) => <H1 {...props} />,
   h2: (props) => <DocsHeading as="h2" size="3xl" {...props} />,
   h3: (props) => <DocsHeading as="h3" size="xl" {...props} />,
@@ -63,7 +52,7 @@ const MDXComponents = {
   h6: (props) => <DocsHeading as="h6" size="sm" {...props} />,
   inlineCode: (props) => (
     <code
-      className="whitespace-prewrap bg-yellow-100 text-yellow-900 mdx-inline-code text-xs px-1 py-0.5"
+      className="whitespace-normal bg-yellow-100 text-yellow-900 mdx-inline-code text-xs px-1 py-0.5"
       {...props}
     />
   ),
@@ -78,7 +67,10 @@ const MDXComponents = {
   ol: (props) => <ol className="pt-2 pl-4 ml-2 max-w-full" {...props} />,
   li: (props) => <li className="pb-1 max-w-full list-disc" {...props} />,
   blockquote: Quote,
-  img: CustomImage,
+
+  // addtinal components
+  Tweet,
+  Image,
 };
 
 export default MDXComponents;

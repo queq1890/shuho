@@ -44,23 +44,19 @@ export default A;
 
 以下のような、 1 directory - 1 component の場合なら分割しても依存関係が分かりやすい。
 
-```
-/Button
-  /index.jsx
-  /styles.js
-```
+    /Button
+      /index.jsx
+      /styles.js
 
 しかし、実際のプロジェクトでは、開発が進むに連れ、以下のような、1 directory - many components のような構成が現れてしまうことがある。(規約で縛っていても誰かがやりだす) このような構成の場合だと、styles.js の中から、対応する css / styled-component 定義を探す手間が生じてしまい、後から開発に参加するメンバーが component と style の関係を理解するまでに時間が掛かってしまう。
 
-```
-/User
-  /index.jsx
-  /styles.js
-  /UserProfile.jsx
-  /UserAvatar.jsx
-  /UserProfileEdit.jsx
-  /UserList.jsx
-```
+    /User
+      /index.jsx
+      /styles.js
+      /UserProfile.jsx
+      /UserAvatar.jsx
+      /UserProfileEdit.jsx
+      /UserList.jsx
 
 また、styled-component + className を使って styling をしている場合、次のような component が生まれてしまう可能性がある。
 

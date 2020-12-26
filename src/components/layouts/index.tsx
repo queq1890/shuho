@@ -12,15 +12,13 @@ type Props = {
 };
 
 const MainLayout: FC<Props> = ({ children, frontMatter }) => {
-  const slug = frontMatter.__resourcePath
-    .replace('blog/', '')
-    .replace('.mdx', '');
+  const { slug } = frontMatter;
 
   return (
     <>
       <Header />
       <BlogSeo
-        url={`https://shuho.queq1890.vercel.app/blog/${slug}`}
+        url={`https://queq1890.info/blog/${slug}`}
         title={frontMatter.title}
         summary={frontMatter.summary}
         publishedAt={frontMatter.publishedAt}
