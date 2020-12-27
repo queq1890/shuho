@@ -3,7 +3,7 @@ const TwitterIcon = () => {
     <svg
       viewBox="0 0 24 24"
       focusable="false"
-      className="fill-current text-gray-500 w-5 -h5"
+      className="fill-current text-gray-500 w-5 h-5"
       role="presentation"
       aria-hidden="true"
     >
