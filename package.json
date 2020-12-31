@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "yarn clear && next dev",
     "clear": "rimraf .next/ .mdx-data/",
-    "build": "yarn clear && next build",
+    "build": "next build",
     "start": "next start",
     "deploy": "vercel",
     "lint": "prettier './src/**/*.{ts,tsx}' --list-different && eslint './src/**/*.{ts,tsx}' --ignore-path .eslintignore",
