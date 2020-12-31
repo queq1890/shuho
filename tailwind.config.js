@@ -1,9 +1,5 @@
 module.exports = {
-  purge: [
-    './src/pages/**/*.tsx',
-    './src/components/**/*.tsx',
-    './src/components/**/*.module.scss',
-  ],
+  purge: ['./src/pages/**/*.tsx', './src/components/**/*.tsx'],
   darkMode: false, // or 'media' or 'class'
   theme: {
     fontFamily: {
