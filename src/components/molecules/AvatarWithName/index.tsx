@@ -1,7 +1,8 @@
 import Image from 'next/image';
-import GitHubIcon from 'components/molecules/GitHubIcon';
 import Stack from 'components/atoms/Stack';
-import TwitterIcon from '../TwitterIcon';
+import GitHubIcon from 'components/molecules/GitHubIcon';
+import TwitterIcon from 'components/molecules/TwitterIcon';
+import InstagramIcon from 'components/molecules/InstagramIcon';
 
 import styles from './AvatarWithName.module.scss';
 
@@ -19,7 +20,7 @@ const AvatarWithName = () => {
 
       <div className="flex flex-col ml-4 items-center">
         <div>
-          <div className="flex flex-col items-start lg:items-center">
+          <div className="flex flex-col items-start">
             <p className="text-2xl lg:text-3xl font-bold">Yuji Matsumoto</p>
 
             <p className="text-xl text-gray-500 ml-1">@queq1890</p>
@@ -43,6 +44,15 @@ const AvatarWithName = () => {
               className="text-decoration-none"
             >
               <TwitterIcon />
+            </a>
+            <a
+              href="https://instagram.com/queq1890"
+              title="Instagram"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-decoration-none"
+            >
+              <InstagramIcon />
             </a>
           </Stack>
         </div>
