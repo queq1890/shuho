@@ -24,7 +24,7 @@ const MainLayout: FC<Props> = ({ children, frontMatter }) => {
         publishedAt={frontMatter.publishedAt}
         image={frontMatter.image}
       />
-      <main className="flex flex-col justify-center md:px-8 px-4">
+      <main className="flex flex-col justify-center md:px-8 px-4 pb-8">
         <article className={styles.article}>
           <BlogPostTitle
             title={frontMatter.title}
