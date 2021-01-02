@@ -1,7 +1,7 @@
 module.exports = {
   purge: {
     content: ['./src/pages/**/*.tsx', './src/components/**/*.tsx'],
-    options: { safeList: [/^text-/, /^space-x-/, /^space-y-/] },
+    options: { safelist: [/^text-/, /^space-x-/, /^space-y-/] },
   },
 
   darkMode: false, // or 'media' or 'class'
