@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import NextLink from 'next/link';
 
+// FIX ME: remove this CSS
 import styles from './Header.module.scss';
 
 const Header: FC = () => {

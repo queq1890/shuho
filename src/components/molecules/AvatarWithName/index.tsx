@@ -4,19 +4,16 @@ import GitHubIcon from 'components/molecules/GitHubIcon';
 import TwitterIcon from 'components/molecules/TwitterIcon';
 import InstagramIcon from 'components/molecules/InstagramIcon';
 
-import styles from './AvatarWithName.module.scss';
-
 const AvatarWithName = () => {
   return (
     <div className="flex">
-      <div className={styles['img-container']}>
-        <Image
-          src="/static/images/avatar.jpeg"
-          width={100}
-          height={100}
-          alt="avatar"
-        />
-      </div>
+      <Image
+        className="rounded-full"
+        src="/static/images/avatar.jpeg"
+        width={100}
+        height={100}
+        alt="avatar"
+      />
 
       <div className="flex flex-col ml-4 items-center">
         <div>

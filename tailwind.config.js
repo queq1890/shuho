@@ -1,5 +1,9 @@
 module.exports = {
-  purge: ['./src/pages/**/*.tsx', './src/components/**/*.tsx'],
+  purge: {
+    content: ['./src/pages/**/*.tsx', './src/components/**/*.tsx'],
+    options: { safelist: [/^text-/, /^space-x-/, /^space-y-/] },
+  },
+
   darkMode: false, // or 'media' or 'class'
   theme: {
     fontFamily: {

@@ -1,30 +1,22 @@
 import { FC } from 'react';
-import classNames from 'classnames/bind';
-import styles from './Stack.module.scss';
-
-const cx = classNames.bind(styles);
 
 type Props = {
   spacing: number;
-  direction?: 'column' | 'row';
+  direction?: 'col' | 'row';
   className?: string;
 };
 
 const Stack: FC<Props> = ({
   spacing,
-  direction = 'column',
+  direction = 'col',
   className,
   children,
 }) => {
+  const spaceClassName =
+    direction === 'col' ? `space-y-${spacing}` : `space-x-${spacing}`;
+
   return (
-    <div
-      className={cx(
-        'stack',
-        `direction-${direction}`,
-        `spacing-${spacing}-${direction}`,
-        className
-      )}
-    >
+    <div className={`flex flex-${direction} ${spaceClassName} ${className}`}>
       {children}
     </div>
   );

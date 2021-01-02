@@ -1,8 +1,4 @@
-.root {
-  @apply flex items-center overflow-hidden bg-primary-50 mt-4 border-solid border-l-4 border-primary-500 w-full;
-
-  padding: 0.75rem 1rem 0.75rem 0.75rem;
-
+.quote-container {
   > :first-of-type {
     margin-top: 0px;
     margin-left: 8px;

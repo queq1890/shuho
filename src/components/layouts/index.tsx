@@ -5,8 +5,6 @@ import BlogSeo from 'components/molecules/BlogSeo';
 import { FrontMatter } from 'types/models/post';
 import BlogPostTitle from 'components/molecules/BlogPostTitle';
 
-import styles from './MainLayout.module.scss';
-
 type Props = {
   frontMatter: FrontMatter;
 };
@@ -25,7 +23,7 @@ const MainLayout: FC<Props> = ({ children, frontMatter }) => {
         image={frontMatter.image}
       />
       <main className="flex flex-col justify-center md:px-8 px-4 pb-8">
-        <article className={styles.article}>
+        <article className="flex flex-col justify-center items-start mx-auto w-full max-w-screen-md">
           <BlogPostTitle
             title={frontMatter.title}
             publishedAt={frontMatter.publishedAt}
