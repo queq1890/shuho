@@ -1,8 +1,4 @@
 import { createElement, memo, FC } from 'react';
-import classNames from 'classnames/bind';
-import styles from './DocsHeading.module.scss';
-
-const cx = classNames.bind(styles);
 
 type Props = {
   id: string;
@@ -13,7 +9,10 @@ type Props = {
 const DocsHeading: FC<Props> = ({ as, children, id, size }) => {
   const Heading = createElement(
     as,
-    { className: cx('root', `size-${size}`), id },
+    {
+      className: `mb-2 lg:mb-4 mt-4 lg:mt-8 font-bold text-${size} max-w-full`,
+      id,
+    },
 
     <div className="pointer-events-auto">
       {children}

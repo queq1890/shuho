@@ -1,13 +1,13 @@
 import { FC } from 'react';
 import Header from 'components/molecules/Header';
 
-import styles from './MainLayout.module.scss';
-
 const MainLayout: FC = ({ children }) => (
   <>
     <Header />
     <main className="flex flex-col flex-center px-4 md:px-8 pb-8">
-      <article className={styles.article}>{children}</article>
+      <article className="flex-col justify-center items-start mx-auto mb-16 w-full max-w-screen-md">
+        {children}
+      </article>
     </main>
   </>
 );
