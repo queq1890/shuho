@@ -14,6 +14,7 @@ const About: NextPage = () => {
 
           <div className="mt-4">
             <p>ベトナム・ハノイ在住のWebアプリケーションエンジニアです。</p>
+            <p>(工事中)</p>
           </div>
         </div>
       </MainLayout>

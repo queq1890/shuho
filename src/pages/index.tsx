@@ -6,7 +6,9 @@ import getPosts from 'utility/getPosts';
 import { FrontMatter } from 'types/models/post';
 import MainLayout from 'components/molecules/MainLayout';
 import BlogPost from 'components/molecules/BlogPost';
+import AvatarWithName from 'components/molecules/AvatarWithName';
 import { defaultSeoConfig } from 'constants/seo';
+import DocsHeading from 'components/atoms/DocsHeading';
 
 type Props = {
   posts: FrontMatter[];
@@ -23,6 +25,17 @@ const Index: NextPage<Props> = ({ posts }) => {
     <>
       <NextSeo {...defaultSeoConfig} />
       <MainLayout>
+        <div className="p-5 max-w-full">
+          <AvatarWithName />
+
+          <div className="mt-4">
+            <p>ベトナム・ハノイ在住のWebアプリケーションエンジニアです。</p>
+          </div>
+        </div>
+
+        <DocsHeading as="h2" size="3xl">
+          <div className="p-5">ブログ記事</div>
+        </DocsHeading>
         <Stack spacing={4}>
           {sortedBlogPosts.map((post: FrontMatter) => (
             <BlogPost post={post} key={post.title} />
