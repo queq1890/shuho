@@ -11,9 +11,9 @@ const Header: FC = () => {
         <NextLink href="/" passHref>
           <a className="p-1 md:p-4 font-semibold">Home</a>
         </NextLink>
-        <NextLink href="/about" passHref>
+        {/* <NextLink href="/about" passHref>
           <a className="p-1 md:p-4 font-semibold">About</a>
-        </NextLink>
+        </NextLink> */}
       </div>
     </div>
   );
