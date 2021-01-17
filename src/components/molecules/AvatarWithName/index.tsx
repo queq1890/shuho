@@ -3,6 +3,7 @@ import Stack from 'components/atoms/Stack';
 import GitHubIcon from 'components/molecules/GitHubIcon';
 import TwitterIcon from 'components/molecules/TwitterIcon';
 import InstagramIcon from 'components/molecules/InstagramIcon';
+import FlickrIcon from 'components/molecules/FlickrIcon';
 
 const AvatarWithName = () => {
   return (
@@ -51,6 +52,15 @@ const AvatarWithName = () => {
               className="text-decoration-none"
             >
               <InstagramIcon />
+            </a>
+            <a
+              href="https://www.flickr.com/photos/191867744@N08"
+              title="Flickr"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-decoration-none"
+            >
+              <FlickrIcon />
             </a>
           </Stack>
         </div>
