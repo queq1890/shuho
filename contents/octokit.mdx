@@ -1,0 +1,152 @@
+---
+title: '@octokit/rest でコミット / ブランチの作成 / PR の作成をやる'
+publishedAt: 2021-01-21
+summary: Node.js からGitHub の操作をする
+tags: ['octokit']
+---
+
+普段は IDE 経由で mdx ファイルを GitHub 上に commit して、ブログ記事を作成している。
+PC を開けない状態でも mdx ファイルをできたら便利そうだと思い、`@octokit/rest` を使って script を書いてみたので、やったことを書く。
+
+## @octokit/rest とは
+
+https://github.com/octokit/rest.js/
+
+- GitHub 公式の Rest API Client
+  - 他にも GraphQL 用の client がある
+
+## Access Token を GitHub 上で発行する
+
+https://github.com/settings/tokens/new にアクセスして、octokit に渡す token を作成する。今回書く script では public repository への read/write があれば良いので、`repo` scope の中の `public_repo` にチェックをつける。
+`Generate token` ボタンを押すと、新しい token が生成され、value が表示されるので、どこかに保存しておく。
+今回の script では `.env` 上で `GITHUB_TOKEN` という環境変数を定義し、`process.env.GITHUB_TOKEN` のような形で利用する。
+
+> token の scope については[公式ドキュメント](https://docs.github.com/en/developers/apps/scopes-for-oauth-apps) を参照
+
+## PR を作成する script を書く
+
+### octokit の instance を定義する
+
+まずは Octokit の instance を定義する。先程作成した token は`auth` key から Octokit に渡す。
+
+```typescript
+import { Octokit } from '@octokit/rest';
+
+const octokit = new Octokit({
+  auth: process.env.GITHUB_TOKEN,
+});
+```
+
+### 新しいブランチを作成する
+
+次に、mdx ファイルの追加コミットを積むためのブランチを作成する。 `octokit.git.getRef` でベースとなるブランチの sha を取得し、 `octokit.git.createRef` で新しいブランチを作成する。
+
+```typescript
+// base ブランチの情報をfetch する
+const baseBranchRef = await octokit.git.getRef({
+  owner: 'queq1890', // ブランチを作成したいリポジトリのowner のuser / org
+  repo: 'shuho', // リポジトリの名前
+  ref: `heads/main`, // `heads/<ブランチ名>`　のように指定する
+});
+
+// 新しいブランチを作成する
+const newBranchRef = await octokit.git.createRef({
+  owner: 'queq1890',
+  repo: 'shuho',
+  ref: `refs/heads/foo`, // `ref/heads/<ブランチ名>`のように指定する
+  sha: baseBranchRef.data.object.sha, // base ブランチのSHA
+});
+```
+
+### 作成したブランチにコミットをする
+
+次に、作成したブランチに mdx ファイルを追加するコミットを行う。全体の作業は大きく次の 4 つの工程に分かれる。
+
+1. コミットを行うブランチの最新のコミットの tree を fetch する
+2. fetch した tree を元に mdx ファイルを追加する tree を作成する
+3. 作成した tree を用いてコミットを作成する
+4. 作成したコミットをブランチに反映する
+
+#### コミットを行うブランチの最新のコミットの tree を fetch する
+
+新しい tree を作成するのに、現在の tree の情報が必要になるため、まずはコミットを行うブランチの最新のコミットの tree を fetch する。
+
+```typescript
+const currentCommit = await octokit.git.getCommit({
+  owner,
+  repo,
+  commit_sha: newBranchRef.data.object.sha,
+});
+```
+
+#### fetch した tree を元に mdx ファイルを追加する tree を作成する
+
+次に、fetch した tree を元に mdx ファイルを追加する tree を作成する。`base_tree` に元となる tree の SHA を渡し、`tree` に追加・変更したいファイル郡の Object を Array で渡す。
+
+```typescript
+const newTree = await octokit.git.createTree({
+  owner,
+  repo,
+  base_tree: currentCommit.data.tree.sha,
+  tree: [
+    {
+      path: `contents/new.mdx`, // 追加したいファイルのpath
+      mode: '100644', //100 はファイル 644は実行不可なファイルであるという意味
+      content: '任意のテキストを入れる', // 今回はstring
+    },
+  ],
+});
+```
+
+> `mode` で指定できる数字については、[公式ドキュメント](https://octokit.github.io/rest.js/v18#git-create-tree)と[git の仕様](https://github.com/git/git/blob/master/Documentation/technical/index-format.txt) を参照
+
+#### 作成した tree を用いて commit を作成する
+
+次に、作成した tree と紐付いた commit を作成する。`parents` には現時点での最新の commit に SHA を指定する。
+
+```typescript
+const newCommit = await octokit.git.createCommit({
+  owner,
+  repo,
+  message: 'マークダウンの追加',
+  tree: newTree.data.sha,
+  parents: [currentCommit.data.sha],
+});
+```
+
+#### 作成したコミットをブランチに反映する
+
+作成したコミットの SHA をブランチの HEAD に反映する。
+
+```typescript
+await octokit.git.updateRef({
+  owner,
+  repo,
+  ref: `heads/${newBranch}`,
+  sha: newCommit.data.sha,
+});
+```
+
+### PR を作成する
+
+最後に、更新した branch から base となる branch に向かってプルリクエストを作成する。
+
+```typescript
+await octokit.pulls.create({
+  owner,
+  repo,
+  head: newBranch,
+  base: baseBranch,
+  title,
+  body,
+});
+```
+
+今回書いた script の gist は[こちら](https://gist.github.com/queq1890/aea5f48e4954439ba17c23009eb10104)
+
+## 参考
+
+Tree Ref といった git の概念がそもそもよく分かっていなかったので、↓ の記事が参考になった。
+
+- http://koseki.hatenablog.com/entry/2014/04/22/inside-git-1
+- http://koseki.hatenablog.com/entry/2014/06/11/inside-git-2
