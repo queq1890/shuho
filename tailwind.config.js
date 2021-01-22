@@ -1,6 +1,10 @@
 module.exports = {
   purge: {
-    content: ['./src/pages/**/*.tsx', './src/components/**/*.tsx'],
+    content: [
+      './src/pages/**/*.tsx',
+      './src/components/**/*.tsx',
+      './src/components/**/*.scss',
+    ],
     options: { safelist: [/^text-/, /^space-x-/, /^space-y-/] },
   },
 
