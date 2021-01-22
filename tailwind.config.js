@@ -1,6 +1,10 @@
 module.exports = {
   purge: {
-    content: ['./src/pages/**/*.tsx', './src/components/**/*.tsx'],
+    content: [
+      './src/pages/**/*.tsx',
+      './src/components/**/*.tsx',
+      './src/components/**/*.scss',
+    ],
     options: { safelist: [/^text-/, /^space-x-/, /^space-y-/] },
   },
 
@@ -25,24 +29,22 @@ module.exports = {
           900: '#000521',
         },
         secondary: {
-          secondary: {
-            50: '#ffe1f2',
-            100: '#ffb1d2',
-            200: '#ff7eb2',
-            300: '#ff4c93',
-            400: '#ff1a74',
-            500: '#e6005b',
-            600: '#b40047',
-            700: '#820032',
-            800: '#50001e',
-            900: '#20000b',
-          },
+          50: '#ffe1f2',
+          100: '#ffb1d2',
+          200: '#ff7eb2',
+          300: '#ff4c93',
+          400: '#ff1a74',
+          500: '#e6005b',
+          600: '#b40047',
+          700: '#820032',
+          800: '#50001e',
+          900: '#20000b',
         },
       },
     },
   },
   variants: {
-    extend: {},
+    extend: { margin: ['first'] },
   },
   plugins: [],
 };
