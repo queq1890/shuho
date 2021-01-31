@@ -1,0 +1,36 @@
+---
+title: 2021年1月31日の雑記
+publishedAt: 2021-01-31
+summary: 1月最終日
+tags: ['random']
+---
+
+**目次**
+
+- [生活](#生活)
+- [プログラミング・技術](#プログラミング・技術)
+
+## 生活
+
+- 初めて白黒フィルムを現像に出した。カラーフィルムに比べると時間が掛かるらしくまだ結果は見れていない。
+- 久しぶりに日系美容室で髪を切った
+
+## プログラミング・技術
+
+### [Blitz.js](https://blitzjs.com/)
+
+- Next.js + Prisma な full stack framework である Blitz.js を試した
+  - CLI から model を generate すると対応する page / component / hooks まで generate されるのは Rails っぽかった
+    - `rails c` に相当するコマンドがあって懐かしい気持ちになった(`blitz console`)
+  - 勝手に FE は Next.js・BE はなんらかの Node.js framework + Prisma だと勘違いしていたのだが、実際には Next.js の API route を使って Next.js だけでやっている構成っぽかった
+    - BE 側の logic を厚くしたい時に苦しくなる感じがした。現状だとまだ monorepo で Next.js + Node.js & Prisma な構成で Prisma Client を自力で使い回す方が scale しやすそうな感触
+    - (自力で Prisma を使ったことがなければ、Blitz.js の構成を評価するのも難しかったと思うので、気になる技術はガンガン試した方が良いことあるなと感じた)
+  - `blitz new` だけで prisma の model から GraphQL な React hooks が生えるのは魅力的なので、PoC 検証段階とかでは使うかもしれない
+
+### [Render.com](https://render.com/)
+
+- Blitz の公式ドキュメントに deploy 先として紹介されていたので試してみた
+  - yaml を書くか、render の web からボタンをポチポチすれば GitHub に置いてあるアプリケーションを deploy できたり、PostgreSQL の DB を建てたり、静的サイトを hosting できたりする
+  - 設定が楽で使いやすかった
+  - hosting 以外のサービスはどれも無料枠がないので、heroku の hobby use の用に雑に使うのは難しいイメージ
+  - それこそ PoC / MVP 段階のアプリケーションをどっかに置きたいが、GCP / AWS を使う程ではない時に候補に上がりそう
