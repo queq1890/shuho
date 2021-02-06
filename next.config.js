@@ -1,6 +1,10 @@
 const withPreact = require('next-plugin-preact');
 
 const config = {
+  future: {
+    webpack5: true,
+  },
+
   experimental: {
     modern: true,
   },
