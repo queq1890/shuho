@@ -1,0 +1,60 @@
+---
+title: 2021年2月7日の雑記
+publishedAt: 2021-02-07
+summary: もうすぐ旧正月
+image: /static/images/2021-02-07/hikkoshi-iwai.jpg
+tags: ['random']
+---
+
+**目次**
+
+- [生活](#生活)
+- [プログラミング・技術](#プログラミング・技術)
+
+## 生活
+
+### コロナ
+
+- 長らく市中感染の発生していなかったベトナムだが、また各省でコロナの症例が報告されている
+- ハノイでは先週より 1 日あたりの報告件数が減ってきている(はず) なので、なんとか社会隔離は実施しない方向でいけるとありがたい
+- そういう訳で旧正月中はどこにも行けなさそう。勉強はしたいのでもくもく会してくれる人を募集
+
+### カメラ
+
+- 初めて白黒フィルムで撮った写真を現像してきた
+- flickr に上げた https://www.flickr.com/photos/191867744@N08
+
+<Image
+  src="/static/images/2021-02-07/hikkoshi-iwai.jpg"
+  width={1565}
+  height={1037}
+  alt="hikkoshi-iwai"
+/>
+
+## プログラミング・技術
+
+### OSS
+
+- Blitz.js の doc と Prisma の language-tools に送った PR がそれぞれ merge された
+  - blitz.js の方は README に名前を載せてもらっていた。本体には contribute していないのに... https://github.com/blitz-js/blitz
+
+### Prisma
+
+- Prisma のブログに載っている tutorial をやっている https://www.prisma.io/blog/backend-prisma-typescript-orm-with-postgresql-data-modeling-tsjs1ps7kip1
+  - 今 part2 まで終わったところで、後は authentication / authorization / deployment が残っている
+  - tutorial で使われている hapi の印象は概ね良い。module の分割がしやすい
+    - validation を提供している joi が便利。alter で conditional な validator を表現できるのが楽
+    - `Hapi.Request` に generics を渡して型を縛れたらなーとは思う。`as` を使わないで input に型を付ける方法はあるのだろうか
+
+### NestJS
+
+- 特に何か実装した訳ではないが、NestJS + Prisma をやっている動画を見た
+  - https://www.youtube.com/watch?v=esYVUkFhwik
+  - 今やっている hapi の tutorial が終わったら、同じ仕様で NestJS で実装し直してみると勉強になるかもしれない
+
+### このブログ
+
+- Next.js の version を 10.0.6 に上げた
+- Webpack 周りに破壊的な変更が入っており、しばらく build も dev 環境も動かせなくてハマった
+- webpack を devDependencies に入れて`future: { webpack5: true }` flag を`next.config.js` に追記したら直った
+  - 参考: https://github.com/vercel/next.js/issues/21679
