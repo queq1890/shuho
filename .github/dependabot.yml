@@ -8,5 +8,5 @@ updates:
       time: '09:00'
       timezone: 'Asia/Bangkok'
     open-pull-requests-limit: 10
-    reviewers: 
+    assignees: 
       - 'queq1890'
