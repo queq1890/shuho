@@ -3,4 +3,10 @@ updates:
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
-      interval: 'daily'
+      interval: 'weekly'
+      day: 'friday'
+      time: '9:00'
+      timezone: 'Asia/Bangkok'
+    open-pull-requests-limit: 10
+    reviewers: 
+      - 'queq1890'
