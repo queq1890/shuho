@@ -15,7 +15,9 @@
     "format": "prettier './src/**/*.{ts,tsx}' --write",
     "test": "jest",
     "test:coverage": "jest --collect-coverage",
-    "typecheck": "tsc --noEmit --pretty"
+    "typecheck": "tsc --noEmit --pretty",
+    "prepare": "husky install",
+    "postinstall": "husky install"
   },
   "dependencies": {
     "autoprefixer": "^10.2.4",
