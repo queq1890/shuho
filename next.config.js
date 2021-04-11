@@ -1,5 +1,3 @@
-const withPreact = require('next-plugin-preact');
-
 const config = {
   future: {
     webpack5: true,
@@ -16,8 +14,17 @@ const config = {
       loader: 'url-loader',
     });
 
+    // Replace React with Preact only in client production build
+    if (!dev && !isServer) {
+      Object.assign(config.resolve.alias, {
+        react: 'preact/compat',
+        'react-dom/test-utils': 'preact/test-utils',
+        'react-dom': 'preact/compat',
+      });
+    }
+
     return config;
   },
 };
 
-module.exports = withPreact(config);
+module.exports = config;
