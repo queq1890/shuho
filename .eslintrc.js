@@ -3,7 +3,6 @@ module.exports = {
     browser: true,
     es6: true,
     node: true,
-    'jest/globals': true,
   },
   extends: [
     'airbnb',
@@ -13,7 +12,6 @@ module.exports = {
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:import/typescript',
-    'plugin:jest/recommended',
     'plugin:jsx-a11y/recommended',
     'plugin:prettier/recommended',
     'plugin:react/recommended',
@@ -38,7 +36,6 @@ module.exports = {
   plugins: [
     '@typescript-eslint',
     'import',
-    'jest',
     'jsx-a11y',
     'prefer-arrow',
     'prettier',
