@@ -1,4 +1,12 @@
 {
   "extends": ["config:base", ":pinAllExceptPeerDependencies"],
-  "schedule": ["every weekend"]
+  "schedule": ["every weekend"],
+  "packageRules": [
+    {
+      "groupName": "@types packages (minor or patch)",
+      "matchPackagePatterns": ["^@types/"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
+    }
+  ]
 }
