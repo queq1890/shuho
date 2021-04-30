@@ -1,0 +1,95 @@
+---
+title: `i18next.t()` の引数をTemplate Literal Types で縛る
+publishedAt: 2021-04-30
+summary: 型安全にi18next を使えるようにした時のメモ
+tags: ['typescript']
+---
+
+
+## `i18next` とは
+[i18next](https://github.com/i18next/i18next)は国際化対応を行うためのライブラリです。init 時に対応したいlocale の辞書を読み込ませた上で、`i18n.t()`に辞書のkey を渡すと、locale に基づいたvalue を返却してくれます。
+
+```typescript
+import i18next from 'i18next';
+
+const en = {
+  address: 'address',
+  animals: {
+    cat: 'cat',
+  },
+};
+
+const ja = {
+  address: '住所',
+  animals: {
+    cat: '猫'
+  },
+};
+
+const resources = {
+  'en-US': {
+    translation: en,
+  },
+  ja: {
+    translation: ja,
+  },
+};
+
+i18next.init({
+  lng: 'ja',
+  resources,
+});
+
+i18next.t('address')
+// => ja だと住所
+// => en-US だとaddress
+
+i18next.t('animals.cat')
+// => ja だと猫 
+// => en-US だとcat
+```
+`i18next.t()`が受けとるkey の型は `string|string[]` になっています。今回はここの型を実際に存在する辞書のkey のみに縛り、辞書に存在しないkey を指定する事故を防ぐ & IDE 上で補完が効く状態を目指します。
+
+## string のvalue を持ったkey を取り出す型を定義する
+
+```typescript
+type RecursiveRecord = {
+  [key in string]: string | RecursiveRecord;
+};
+
+type PickKeys<T extends RecursiveRecord, K = keyof T> = K extends string
+  ? T[K] extends string
+    ? K
+    : `${K}.${PickKeys<Extract<T[K], RecursiveRecord>>}`
+  : never;
+```
+
+`RecursiveRecord` は`string` か`RecursiveRecord` 自身をvalue として保持するobject の型で、辞書ファイルの型を想定しています。`PickKeys` は`RecursiveRecord` からstring のvalue を持ったkey を取り出す型です。`T[K]` がstring の場合は、そのままkey を返し、`T[K]` が`RecursiveRecord` の場合は、key と、value のobject を`PickKeys` に通したものを `.` でjoin するようなtemplate literal を返します。この`PickKeys` 型に辞書ファイルの型をgenerics で渡してあげれば、`i18next.t()` の引数として有効なkey のunion を得ることができます。
+
+```typescript
+type I18nDictionary = { 
+  address: string;
+  animals: {
+    cat: string;
+    dog: string;
+  };
+};
+
+type I18nKey = PickKeys<I18nDictionary>;
+```
+
+## wrapper function を作成する
+
+先程定義した`I18nKey` 型を使って、`i18next.t()` のwrapper function　を定義します。
+
+```typescript
+import i18n, { TFunctionResult, TOptions } from 'i18next';
+
+const translate = (key: I18nKey|I18nKey[], options?: TOptions) => {
+  return i18next.t<TFunctionResult, I18nKey>(key, options);
+};
+```
+
+`translate()` の引数を入力する際に、`key`の型が補完されるようになりました。
+
+![](https://storage.googleapis.com/zenn-user-upload/3pd13rczspana1yrqg3lrj1dbcgx)
