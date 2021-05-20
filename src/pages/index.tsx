@@ -8,7 +8,6 @@ import MainLayout from 'components/molecules/MainLayout';
 import BlogPost from 'components/molecules/BlogPost';
 import AvatarWithName from 'components/molecules/AvatarWithName';
 import { defaultSeoConfig } from 'constants/seo';
-import DocsHeading from 'components/atoms/DocsHeading';
 
 type Props = {
   posts: FrontMatter[];
@@ -33,9 +32,9 @@ const Index: NextPage<Props> = ({ posts }) => {
           </div>
         </div>
 
-        <DocsHeading as="h2" size="3xl">
+        <h2 className="text-3xl font-bold">
           <div className="p-5">ブログ記事</div>
-        </DocsHeading>
+        </h2>
         <Stack spacing={4}>
           {sortedBlogPosts.map((post: FrontMatter) => (
             <BlogPost post={post} key={post.title} />

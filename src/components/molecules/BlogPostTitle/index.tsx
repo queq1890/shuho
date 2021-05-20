@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import Image from 'next/image';
-import H1 from 'components/atoms/H1';
 
 type Props = {
   title: string;
@@ -10,7 +9,9 @@ type Props = {
 const BlogPostTitle: FC<Props> = ({ title, publishedAt }) => {
   return (
     <div className="flex flex-col justify-start items-start w-full max-w-screen-md">
-      <H1 id={title}>{title}</H1>
+      <h1 id={title} className="my-4 max-w-full text-5xl font-bold">
+        {title}
+      </h1>
       <div className="flex justify-between items-start md:items-center flex-col md:flex-row mt-2 mb-4 w-full">
         <div className="flex items-center">
           <div className="mr-2">

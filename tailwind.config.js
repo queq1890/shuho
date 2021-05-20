@@ -46,5 +46,5 @@ module.exports = {
   variants: {
     extend: { margin: ['first'] },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 };
