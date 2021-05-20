@@ -4,8 +4,7 @@ import matter from 'gray-matter';
 import mdxPrism from 'mdx-prism';
 import path from 'path';
 import { format } from 'date-fns';
-import renderToString from 'next-mdx-remote/render-to-string';
-import MDXComponents from 'components/molecules/MDXComponents';
+import { serialize } from 'next-mdx-remote/serialize';
 
 const root = process.cwd();
 
@@ -16,8 +15,7 @@ export async function getFileBySlug(slug) {
   );
 
   const { data, content } = matter(source);
-  const mdxSource = await renderToString(content, {
-    components: MDXComponents,
+  const mdxSource = await serialize(content, {
     mdxOptions: {
       remarkPlugins: [
         require('remark-autolink-headings'),

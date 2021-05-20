@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
-import hydrate from 'next-mdx-remote/hydrate';
+import { MDXRemote } from 'next-mdx-remote';
+
 import { FrontMatter } from 'types/models/post';
 import { getFiles } from 'utility/getFiles';
 import Layout from 'components/layouts';
@@ -9,11 +10,11 @@ import { getFileBySlug } from 'utility/getFileBySlug';
 type Props = { mdxSource; frontMatter: FrontMatter };
 
 const Blog: NextPage<Props> = ({ mdxSource, frontMatter }) => {
-  const contents = hydrate(mdxSource, {
-    components: MDXComponents,
-  });
-
-  return <Layout frontMatter={frontMatter}>{contents}</Layout>;
+  return (
+    <Layout frontMatter={frontMatter}>
+      <MDXRemote {...mdxSource} components={MDXComponents} />
+    </Layout>
+  );
 };
 
 export const getStaticPaths = async () => {
