@@ -1,4 +1,5 @@
 module.exports = {
+  mode: 'jit',
   purge: {
     content: [
       './src/pages/**/*.tsx',
@@ -8,13 +9,22 @@ module.exports = {
     options: { safelist: [/^text-/, /^space-x-/, /^space-y-/] },
   },
 
-  darkMode: false, // or 'media' or 'class'
+  darkMode: 'class', // or 'media' or 'class'
   theme: {
     fontFamily: {
       'vulf-mono': ['Vulf Mono'],
       'vulf-sans': ['Vulf Sans'],
     },
     extend: {
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            // color: theme('colors.gray.700'),
+            color: theme('colors.red.700'),
+          },
+        },
+        dark: { css: { color: theme('colors.gray.700') } },
+      }),
       colors: {
         primary: {
           50: '#e1ebff',
@@ -44,7 +54,7 @@ module.exports = {
     },
   },
   variants: {
-    extend: { margin: ['first'] },
+    extend: { margin: ['first'], typography: ['dark'] },
   },
   plugins: [require('@tailwindcss/typography')],
 };

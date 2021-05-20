@@ -28,7 +28,7 @@ const MainLayout: FC<Props> = ({ children, frontMatter }) => {
             title={frontMatter.title}
             publishedAt={frontMatter.publishedAt}
           />
-          <div className="prose flex flex-col justify-center items-start mx-auto w-full max-w-screen-md">
+          <div className="prose dark:prose-dark flex flex-col justify-center items-start mx-auto w-full max-w-screen-md">
             {children}
           </div>
         </article>
